@@ -1,0 +1,183 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Review</title>
+
+    <!-- Bootstrap CSS -->
+
+    <!-- Bootstrap Icons -->
+    <style>
+     
+
+        .review-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .star-rating i {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+    
+        .product-img {
+            border-radius: 12px;
+            max-width: 100%;
+        }
+         .review-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    .review-card:hover {
+      transform: translateY(-5px);
+    }
+    .star {
+      color: #FFD700;
+      font-size: 18px;
+    }
+    .reviewer {
+      font-weight: bold;
+      color: #343a40;
+    }
+    .review-date {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+    .review-text {
+      margin-top: 10px;
+      color: #495057;
+    }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+            <div class="review-card">
+
+                <!-- Product Info -->
+                 {% for pr in product_reviews %}
+                 {% if pr.comment_or_not == 0 %}
+                 <form action="" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" value="{{pr.id}}" name="id">
+                <div class="row mb-4">
+                    <div class="col-2 text-center">
+                        <img src="/media/images/{{pr.c_product_variant.product_variant.first.image}}" class="product-img" alt="Product">
+                         <p class="text-muted">Order Delivered ✔</p>
+                    </div>
+                 
+                    <div class="col-4">
+                         <h5 class="mb-3">Rate this product</h5>
+                       
+                         <select required name="stars" class="form-control" id="">
+                            <option value="">rate starts</option>
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                        </select>
+                    </div>
+                       <div class="col-6">
+                        <h4 class="fw-bold">Men Cotton Casual Shirt</h4>
+                       
+                        <p>Share your experience with this product.</p>
+                         <textarea class="form-control mb-3" rows="4" placeholder="Write your review here..." name="comment">
+
+                         </textarea>
+                    </div>
+                </div>
+                <div class="text-end">
+                            <button class="btn btn-warning">Submit Review</button>
+                        </div>
+                  <hr>
+                        </form>
+                {% endif %}
+{% endfor %}
+              
+                <!-- Star Rating -->
+                
+                </div>
+
+                <!-- Review Form -->
+               
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <div class="container my-5 bg-white" style="border-radius: 10px; padding-bottom: 50px;">
+  <h5 class=" mb-4" style="font-family: Arial, Helvetica, sans-serif;"><br>Your Reviews</h2>
+   {% for pr in product_reviews %}
+                 {% if pr.comment_or_not == 1 %}
+  <!-- Review 1 -->
+  <div class="row">
+    <div class="col-12">
+        <div class="row" >
+   <div class="col-2">
+                <span class="reviewer">{{pr.user.first_name}}</span> 
+                
+   </div>
+        <div class="col-1">
+            <img src="/media/images/{{pr.c_product_variant.product_variant.first.image}}" style="width: 100%;" alt="">
+
+        </div>
+         <div class="col-2">
+          {% if pr.star_rate == 1 %}
+            ⭐
+            {% elif pr.star_rate == 2 %}
+            ⭐⭐
+            {% elif pr.star_rate == 3 %}
+            ⭐⭐⭐
+            {% elif pr.star_rate == 4 %}
+            ⭐⭐⭐⭐
+            {% elif pr.star_rate == 5 %}
+            ⭐⭐⭐⭐⭐
+            {% endif %}
+
+         </div>
+          <div class="col-7">
+        
+          {{pr.comment}}
+        </div>
+      </div>
+    </div>
+  </div>
+<hr>
+{% endif %}
+{% endfor %}
+
+
+
+
+
+
+
+  
+
+
+</div>
+
+</body>
+</html>
+{% endblock %}

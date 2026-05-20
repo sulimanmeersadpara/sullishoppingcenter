@@ -1,0 +1,77 @@
+{% extends 'base/shortbase.html' %}
+   {% block start %}
+
+    <style>
+    
+        .success-container {
+            max-width: 700px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+        }
+        .product-table th {
+            background-color: #f8f9fa;
+        }
+        .total-price {
+            font-size: 22px;
+            font-weight: 600;
+            text-align: right;
+            color: #28a745;
+        }
+        .btn-continue {
+            background-color: #28a745;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 30px;
+        }
+        .btn-continue:hover {
+            background-color: #218838;
+        }
+    </style>
+
+    <div class="success-container text-center">
+        <div class="success-icon mb-3">✅</div>
+        <h2 class="text-success mb-4">Order Confirmed!</h2>
+        <p class="text-muted">Thank you for your purchase. Your order has been placed successfully!</p>
+        <p class="mb-5" style="color: rgb(138, 134, 134)"><i>The order details have been sent to your email address {{request.user.email}}</i></p>
+        <br>
+        <table class="table table-bordered product-table align-middle">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>image</th>
+                    <th>Quantity</th>
+                    <th>Price (Rs)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td><img src="/media/images/{{ product.c_product_variant.product_variant.first.image }}" style="width: 4vw;" alt=""></td>
+                    <td>{{ product.c_product.p_name }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total-price mt-4">
+            Total: Rs {{ total_price }}
+        </div>
+        <div>
+            <i>
+                The products will deliver in your address <b>{{customer_shipping_obj.address1}} {{customer_shipping_obj.address2}} {{customer_shipping_obj.shipping_area_id.city.city_name}}</b> within {{customer_shipping_obj.shipping_area_id.estimated_time}}
+            </i>
+        </div>
+        <div class="mt-5">
+            <a href="/" class="btn btn-continue px-4 py-2">Continue Shopping</a>
+        </div>
+    </div>
+
+{% endblock %}

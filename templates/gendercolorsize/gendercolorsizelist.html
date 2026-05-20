@@ -1,0 +1,100 @@
+{% extends 'base/shortbase.html' %}
+   {% block start %}
+   <div class="container">
+    <div class="row">
+        {% if perms.categories.view_gender %} 
+        <div class="col-3">
+            {% if perms.categories.add_gender %}  
+            <a href="{% url 'addgender' %}"><button class="btn btn-primary">add gender</button></a>
+            {% endif %}
+            
+            <table class="table bg-white">
+                <tr>
+                    <td>
+                        gender
+                    </td>
+                    {% if perms.categories.delete_gender %} 
+                    <td>
+                        delete
+                    </td>
+                    {% endif %}
+                </tr>
+                {% for gender in genders %}
+                <tr>
+                    <td>
+                        {{gender.g_name}}
+                    </td>
+                    {% if perms.categories.delete_gender %} 
+                    <td><a href="{% url 'deletegender' gender.g_id %}" style="text-decoration: none;"><button class="btn btn-danger">delete gender</button></a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+           
+        </div>
+         {% endif %}
+         {% if perms.products.view_colorvariant %}
+        <div class="col-5">
+            {% if perms.products.add_colorvariant %}
+            <a href="{% url 'addcolor' %}" style="text-decoration: none;"><button class="btn btn-primary">add color</button></a>
+            {% endif %}
+            <table class="table bg-white">
+                <tr>
+                    <td>color name</td>
+                    <td>color code</td>
+                    {% if perms.products.delete_colorvariant %}
+                    <td>delete</td>
+                    {% endif %}
+                </tr>
+                {% for color in colors %}
+                    <tr>
+                        <td>
+                            {{color.color_name}}
+                        </td> 
+                        <td>
+                            <div style="width: 20px; height: 20px; border-radius: 20px; background-color:{{color.color_code}} ;"></div>
+                        </td>
+                        {% if perms.products.delete_colorvariant %}
+                      <td>
+                           <a href="{% url 'deletecolor' color.id  %}" style="text-decoration: none;"><button class="btn btn-danger" style="font-size: 11px; ">delete color</button></a> 
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+        {% if perms.products.view_sizevariant %}
+        <div class="col-4">
+             {% if perms.products.add_sizevariant %}
+            <a href="{% url 'addsize' %}"><button class="btn btn-primary">add size</button></a>
+            {% endif %}
+            <table class="table bg-white">
+                <tr>
+                    <td>
+                        size
+                    </td>
+                 {% if perms.products.delete_sizevariant %}
+                    <td>
+                        delete
+                    </td>
+                    {% endif %}
+                </tr>
+                {% for size in sizes %}
+                <tr>
+                <td>
+                    {{size.size_name}}
+                </td>
+                 {% if perms.products.delete_sizevariant %}
+                        <td>
+                            <a href="{% url 'deletesize' size.id %}" style="text-decoration: none;"><button class="btn btn-danger" style="font-size: 11px; ">delete size</button></a>
+                        </td>
+                        {% endif %}
+                        </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+    </div>
+   </div>
+   {% endblock %}

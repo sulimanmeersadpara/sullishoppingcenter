@@ -1,0 +1,62 @@
+
+  {% extends 'base/shortbase.html' %} 
+
+
+   {% block start %}
+    <div class="container">
+            <div class="row ">
+            <div class="col-5 bg-white ">
+                <div class="row ">
+                    <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 "><br>Email : {{user.username}}</div>
+                     <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 ">Name : {{user.first_name}}</div>
+                     <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 ">Staff : {{user.job_title}}</div>
+                     <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 ">Nationality : {{user.Nationality}}</div>
+                     <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 ">Gender : {{user.gender_id.g_name}}</div>
+                     <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 ">DOB : {{user.DOB}}</div>
+                     <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 ">Address : {{user.address}}</div>
+                     <div class="col-12 text-center text-primary fw-bold mb-4 border-bottom pb-2 ">Phone Number : {{user.phone}}</div>
+                </div>
+            </div>
+            <div class="col-1 bg-secondary"></div>
+            <div class="col-6 bg-white">
+                <img src="/media/images/{{user.profile_image}}" width="100%" alt="">
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-6 bg-white">
+                <form action="{% url 'change_password' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-4"><br>old password</div>
+                        <div class="col-8"><br><input type="password" name="old_password" id="" class="form-control"></div>
+                        <div class="col-4"><br>new password</div>
+                        <div class="col-8"><br><input type="password" name="new_password" id="" class="form-control"></div>
+                        <div class="col-4"><br>confirm password</div>
+                        <div class="col-8"><br><input type="password" name="confirm_password" id="" class="form-control"></div>
+                        <div class="col-4"></div>
+                        <div class="col-8"><br><button type="submit" class="btn btn-primary">change password</button><br></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-1 bg-secondary"></div>
+            <div class="col-5 bg-white">
+                <form action="{% url 'change_profile_image' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-4"><br>Profile image</div>
+                    <div class="col-8">
+                        <br><input type="file" class="form-control" name="emp_image">
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-8"><br><button type="submit" class="btn btn-primary">upload image</button><br></div>
+                </div>
+                </form>
+            </div>
+            
+
+        </div>
+    
+    </div>
+
+   {% endblock %}

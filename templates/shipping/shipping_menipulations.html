@@ -1,0 +1,70 @@
+{% extends 'base/shortbase.html' %} 
+{% block start %}
+<div class="container" style=" background-color: rgb(206, 213, 220); border-radius: 10px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-9"></div>
+                <div class="col-3">
+                  <br>  {% if perms.shipping.add_shipping_areas %}<a href="{% url 'add_shipping_areas' %}"><button class="btn btn-outline-primary">add shipping areas</button><br><br></a>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="container bg-white" style="border-radius: 10px;">
+            <div class="row">
+                
+                <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">area name</th>
+      <th scope="col">postal code</th>
+      <th scope="col">base charge</th>
+      <th scope="col">items charge</th>
+      <th scope="col">max charge</th>
+      <th scope="col">estimated time</th>
+      <th scope="col">advace payment</th>
+      <th scope="col">is active</th>
+      <th scope="col">city</th>
+      <th scope="col">country</th>
+      {% if perms.shipping.change_shipping_areas %}
+      <th scope="col">update</th>
+      {% endif %}
+      {% if perms.shipping.delete_shipping_areas %}
+      <th scope="col">delete</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for s_a_l in shipping_areas_list %}
+    <tr>
+      
+      <td>{{s_a_l.area_name}}</td>
+      <td>{{s_a_l.postal_code}}</td>
+      <td>{{s_a_l.base_charge}}</td>
+      <td>{{s_a_l.additional_item_charge}}</td>
+      <td>{{s_a_l.max_charges}}</td>
+      <td>{{s_a_l.estimated_time}}</td>
+      <td>{{s_a_l.advance_payment_percent}}</td>
+      <td>
+        {% if s_a_l.is_active == True %}
+        yes
+        {% else %}
+        no
+        {% endif %}
+      </td>
+      <td>{{s_a_l.city.city_name}}</td>
+      <td>{{s_a_l.country_name.country_name}}</td>
+      {% if perms.shipping.change_shipping_areas %}
+      <td><a href="{% url 'update_shipping' s_a_l.id %}" style="text-decoration: none;">&#9881</a> </td>
+      {% endif %}
+      {% if perms.shipping.delete_shipping_areas %}
+      <td><a href="{% url 'delete_shipping' s_a_l.id %}" style="text-decoration: none; color: red;">&#128465;</a></td>
+      {% endif %}
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+            </div>
+        </div>
+        <br><br>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+.product_image{
+    width: 100%;
+}
+.product_name{
+    font-weight: bold;
+    color: rgb(83, 77, 77);
+}
+.description{
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.size{
+    font-size: 1vw;
+    font-weight: bold;
+    color: rgb(93, 88, 88);
+}
+.remove-btn{
+    background-color: white;
+    
+    border: none;
+    width: 1vw;
+}
+.minusbutton,.plusbutton{
+    font-size: 3vw;
+    font-weight: bold;
+    border-radius: 100%;
+    background-color: white;
+    position: relative;
+    bottom: 1vw;
+}
+.plusbutton:hover{
+    color: blue;
+}
+.minusbutton:hover{
+    color: blue;
+}
+.price{
+    font-size: 1vw;
+    font-weight: bold;
+}
+.quantity{
+    font-size: 1vw;
+    font-weight: bold;
+}

@@ -1,0 +1,150 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+<div class="container bg-white " style="border-radius: 10px; ">
+    
+    <div class="row">
+        
+        <div class="col-md-6 col-sm-12" style="border: 2px solid  rgb(1, 1, 112);  border-radius: 12px; margin-top: 1px;">
+          
+          <div class="row" style="background-color:  rgb(1, 1, 112); border-radius: 10px; color: white;">
+            <div class="col-12">
+              <center>
+                Order Summary
+              
+              </center>
+            </div>
+          </div>
+          <br>
+          {% for c in card_data %}
+          {{c.c_product.p_name}} : Rs {{c.price}}
+          <br>
+          Quantity : {{c.quantity}}
+          <br><br>
+          {% endfor %}
+        <br><br>
+        Your deleveiry charges for {{customerse_place_obj.shipping_area_id.area_name}} {{customerse_place_obj.shipping_area_id.city.city_name}} = <b>{{customerse_place_obj.deleivery_charges}}</b>
+        <br>
+        products price = <b>{{customerse_place_obj.product_price}}</b>
+           
+        <div class="row" >
+            <div class="col-12">
+              
+                Total: Rs. <b>{{customerse_place_obj.total}}</b>
+              
+          
+            </div>
+          </div>
+        </div>
+        
+
+           <div class="col-md-6 col-sm-12" style="border: 2px solid  rgb(1, 1, 112);  border-radius: 12px;  margin-top: 1px;">
+          
+          <div class="row" style="background-color:  rgb(1, 1, 112); border-radius: 10px; color: white;">
+            <div class="col-12">
+              <center>
+                Shipping Address
+              
+              </center>
+            </div>
+          </div>
+          <br>
+         Name: {{user.first_name}}
+         <br>
+         Email: {{user.email}}
+        <br>
+        phone number: {{customerse_place_obj.phone_number}}
+        <br>
+        City:{{customerse_place_obj.shipping_area_id.city.city_name}}
+        <br>
+        Area: {{customerse_place_obj.shipping_area_id.area_name}}
+        <br>
+        Postal Code: {{customerse_place_obj.shipping_area_id.postal_code}}
+        <br>
+        Address1: {{customerse_place_obj.address1}}
+        <br>
+        Address2: {{customerse_place_obj.address2}}
+        <br>
+        Delivery Option: deliver {{customerse_place_obj.delevery_option}}
+         <br>
+         {% if customerse_place_obj.delevery_option == 'later' %}
+         Delivery Date: {{customerse_place_obj.date_ordered|date:"Y-m-d" }}
+         <br>
+         {% endif %}
+         <br>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-4"><img src="/static/img/jazzcash_logo.png" style="width: 100%;" alt=""></div>
+        <div class="col-8">
+            <div class="row">
+                <br><br>
+              <p style="font-weight: bold; font-family: Arial; font-size: 16px;"><br><br>
+                {% if customerse_place_obj.shipping_area_id.advance_payment_percent > 0 %}
+                <div class="table-responsive">
+                <table class="table table-striped border">
+                  <thead>
+                    
+                      <th>total</th>
+                      <th>advance payment percent</th>
+                      <th>advance payment Rs. </th>
+                      <th>advance paid Rs. </th>
+                      <th>rest of pay</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{customerse_place_obj.total}}</td>
+                      <td>{{customerse_place_obj.shipping_area_id.advance_payment_percent}}% </td>
+                      <td>{{customerse_place_obj.advance_pay}}</td>
+                      <td>{{customerse_place_obj.online_paid}}</td>
+                      <td>{{customerse_place_obj.rest_for_delvery}}</td>
+                    </tr>
+                   
+                  </tbody>
+                </table>
+                <p style="color: rgb(106, 105, 105); font-size: 1vw;">For the location {{customerse_place_obj.shipping_area_id.area_name}}, {{customerse_place_obj.shipping_area_id.city.city_name}}, a {{customerse_place_obj.shipping_area_id.advance_payment_percent}}% advance payment is required, which becomes {{customerse_place_obj.advance_pay}}. The remaining balance can be paid in cash upon delivery."
+</p>
+           </div>
+           {% endif %}
+            </div>
+              {% if customerse_place_obj.shipping_area_id.advance_payment_percent > 0 %}
+            <div class="row">
+                <div class="col-2"></div>
+              <div class="col-8"><br>
+                <form method="post" action="https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/">
+                 
+                 <input type="hidden" name="product_name" value="{{product_name}}">
+                 <input type="hidden" name="product_price" value="{{product_price}}">
+                  {% for key, value in post_data.items %}
+			          <input type="hidden" name="{{key}}" value="{{value}}">
+			          {% endfor %}
+                  <button class="btn" type="submit" style="width: 100%; background-color: rgb(159, 18, 18); font-weight: bold; color: white;">pay with jazzcash</button></a>
+                  </form>
+              </div>
+              <div class="col-2"></div>
+
+            </div>
+            {% else %}
+            <p style="color: rgb(106, 105, 105); font-size: 1vw;">For the location {{customerse_place_obj.shipping_area_id.area_name}}, {{customerse_place_obj.shipping_area_id.city.city_name}}, your total payment will be {{customerse_place_obj.total}} which you will pay on delivery.
+</p>
+            {% endif %}
+            
+            {% if customerse_place_obj.advance_pay <= customerse_place_obj.online_paid %}
+               <div class="row">
+                <div class="col-2"></div>
+              <div class="col-8"><br>
+                <a href="{% url 'order' %}"><button class="btn" style="width: 100%; background-color: rgb(11, 177, 55); font-weight: bold; color: white;">finalize checkout</button>
+                  </a></div>
+              <div class="col-2"></div>
+            </div>
+            {% endif %}<br>
+        </div>
+    </div>
+</div>
+<script> 
+function submitForm(){
+				document.forms[0].submit()
+			}
+		
+			</script>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+<div class="container bg-white">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+                <form action="" method="post">
+                    {% csrf_token %}
+            <div class="row">
+            <div class="col-4"><br>parent category name</div>
+            <div class="col-8">
+                <br><input type="text" value="{{parent_category.p_c_name}}" name="p_category" class="form-control">
+            </div>
+            
+
+                <div class="col-4"></div>
+                <div class="col-8"><br><button type="submit" class="btn btn-primary">update parent category</button><br></div>
+
+            </div>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+{% endblock %}

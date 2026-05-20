@@ -1,0 +1,105 @@
+{% extends 'base/shortbase.html' %} 
+
+{% block start %}
+
+
+
+     
+                <div class="container bg-white p-3" style="border-radius: 10px;">
+    <div class="row">
+        <div class="col-9"></div>
+        <div class="col-3">
+            
+                    {% if perms.products.add_product %}     
+                    <a href="{% url 'add_new_variant' slug %}">
+                    <button class="btn btn-primary" id="addProductVariantBtn">
+                        <i class="fas fa-plus"></i> Add Variant
+                    </button>
+                    
+                </a>
+                {% endif %}
+                
+                </div>
+        </div>
+    </div>
+</div>
+<br>
+                <div class="table-responsive bg-white">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>color</th>
+                                <th>size</th>
+                                <th>original Price</th>
+                                <th>is sale</th>
+                                <th>sale price</th>
+                                <th>quantity</th>
+                                <th>Image</th>
+                                <th>ImageMenipulations</th>
+                                 {% if perms.products.change_product %}     
+                                <th>update</th>
+                                {% endif %}
+                                 {% if perms.products.delete_product %}     
+                                <th>delete</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                               <td>  {{product.pv_id}}</td>
+                                <td>  <div style="width: 2vw; height: 2vw; border-radius: 100%; background-color: {{product.color.color_code}}"></div> </td>
+                                <td>{{product.size}}</td>
+                                <td>{{product.price}}</td>
+                                <td>
+                                    {% if product.p_is_sale %}
+                                    <p style="color: green; font-weight: bold; font-family: Arial; ">✔</p>
+                                    {% else %}
+                                    <p style=" font-weight: bold; font-family: Arial; ">❌</p>
+                                    {% endif %}
+                                </td>
+                                                
+                                    
+                                
+                                <td>
+                                    {% if product.p_is_sale %}
+                                    <p style="color: green; font-weight: bold; font-family: Arial; ">{{product.sale_price}}</p>
+                                    {% else %}
+                                    <p style=" font-weight: bold; color: rgb(156, 0, 0); font-family: Arial; ">None</p>
+                                    {% endif %}
+                                    <td>{{product.quantity}}</td>
+                                
+                                <td><img  src="/media/images/{{product.product_variant.first.image}}" style="width: 3vw;" alt=""></td>
+                                <td> <a href="{% url 'images' product.product.slug product.pv_id %}"><button class="btn btn-outline-success"> imagesMenipulations </button> </a></td>
+                                 {% if perms.products.change_product %}  
+                                <td>
+                                    
+                               
+                                    <a href="{% url 'product_variant_update' product.pv_id %}"><button class="btn btn-outline-primary">Update</button></a>
+                                 
+                                 
+                            </td>
+                            {% endif %} 
+                             {% if perms.products.delete_product %}  
+                                <td>
+                                    
+                                
+                                    <a href="{% url 'delete_variant' product.product.slug product.pv_id %}"><button class="btn btn-outline-warning">Delete</button></a>
+                                
+                                </td>
+                                {% endif %}
+                                </tr>
+                                  {% endfor %}
+                        </tbody>
+                        
+                    </table>
+                    
+                </div>
+
+     
+
+
+
+{% endblock %}

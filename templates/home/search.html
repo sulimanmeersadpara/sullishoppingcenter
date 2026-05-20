@@ -1,0 +1,121 @@
+{% extends "base/base.html" %}
+    {% block start %}    
+  
+   {% for product in serviceData %}
+                            
+
+        <div class=" col-lg-3 col-6" style="margin-top: 2vw;">
+        <a href="{% url 'products_detail' product.slug %}" style="text-decoration: none;">
+          <div class="product-card">
+            <img src="/media/images/{{product.p_image.first.image}}" alt="Product Image">
+            <div class="product-info">
+              <!--<div class="product-price">Rs.{{product.p_price}}</div>-->
+            </div>
+          </div>
+          
+              <div class="product-name"><center>{{product.p_name}}</center></div>
+              <div class="product-price"><center>Rs.{{product.min_price}} - Rs.{{product.max_price}}</center></div>
+              <div class="product-company"><center>{{product.p_compony}}</center></div>
+          </a>
+        </div>
+        
+    {% endfor %}
+        <div class="container">
+      <div class="row">
+        <div class="col-12">
+         <center>
+            <div class="pagination">
+            {% if priceRange %}
+ 
+            {% if serviceData.has_previous %}
+              <a href="/?page=1&PriceRange={{priceRange}}">first</a>
+              <a href="/?page={{serviceData.previous_page_number}}&PriceRange={{priceRange}}">preve</a>
+            {% endif %}
+              {%for n in totalPagelist %}
+              {% if page_no == n %}
+              <a  href="/?page={{n}}&PriceRange={{priceRange}}" class="active">{{n}}</a>
+              
+            {% else %} 
+             <a  href="/?page={{n}}&PriceRange={{priceRange}}">{{n}}</a>
+             {% endif %}
+              {% endfor %}
+              
+            {% if serviceData.has_next %}
+                    
+              <a href="/?page={{serviceData.next_page_number}}&PriceRange={{priceRange}}">next</a>
+              <a href="/?page={{lastpage}}&PriceRange={{priceRange}}">last</a>
+              {% endif %}
+
+
+              {% else %}<!----this else is that if price is not set-->
+            {% if serviceData.has_previous %}
+            <a href="/?page=1" class="">first</a>
+              <a href="/?page={{serviceData.previous_page_number}}">preve</a>
+            {% endif %}
+              {%for n in totalPagelist %}
+              {% if page_no == n %}
+              <a  href="/?page={{n}}" class="active">{{n}}</a>
+              
+            {% else %} 
+             <a  href="/?page={{n}}">{{n}}</a>
+             {% endif %}
+              {% endfor %}
+              
+            {% if serviceData.has_next %}
+                    
+              <a href="/?page={{serviceData.next_page_number}}">next</a>
+              <a href="/?page={{lastpage}}">last</a>
+              {% endif %}
+             {% endif %}
+                    
+            </div>
+          </center>
+        </div>
+      </div>
+    </div>
+
+</script>
+{% if priceRange %}
+
+
+<script>
+
+    genderAll=document.getElementById('genderAll');
+    genderAll.addEventListener('change',(event)=>
+{
+//const selectedCategory=event.target.value;
+
+//const childCategory=document.getElementById('p_ctgry');
+//value=childCategory.value;
+if(document.getElementById('genderAll').checked){
+window.location.href=window.location.pathname+`?PriceRange={{priceRange}}&gender=-1`;
+
+}
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`;
+
+});
+</script>
+
+{% else %}
+
+<script>
+
+genderAll=document.getElementById('genderAll');
+genderAll.addEventListener('change',(event)=>
+{
+//const selectedCategory=event.target.value;
+
+//const childCategory=document.getElementById('p_ctgry');
+//value=childCategory.value;
+if(document.getElementById('genderAll').checked){
+window.location.href=window.location.pathname+`?gender=-1`;
+
+}
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`;
+
+});
+</script>
+{% endif %}
+
+
+ {% endblock %}

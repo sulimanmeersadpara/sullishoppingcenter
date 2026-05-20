@@ -1,0 +1,29 @@
+  {% extends 'base/shortbase.html' %} 
+    {% block start %}
+        <div class="container bg-white" style="border-radius: 10px;">
+            <div class="row">
+
+                   
+                    <div class="col-12">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                        <div class="row border border-2">
+                                                        <div class="col-4">
+                                                        <br>
+                                                            Country name
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <br><input type="text" name="country" value="{{country.country_name}}" id="" class="form-control">
+                                                            
+                                                        </div>
+                                                        <div class="col-4"></div>
+                                                        <div class="col-8">
+                                                            <br><button type="submit" style="width: 100%;" class="btn btn-outline-primary">update country</button><br><br>
+                                                        </div>
+                            </div>
+                            </form>
+                    </div>
+            </div>
+        </div>
+       
+   {% endblock %}

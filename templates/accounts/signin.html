@@ -1,0 +1,108 @@
+
+  {% extends 'base/shortbase.html' %} 
+
+   {% block start %}
+ 
+
+</head>
+
+
+
+
+  <title>Signin</title>
+
+  
+
+  <link rel="stylesheet" href="/static/css/signup.css">
+</head>
+<body>
+<form class="form" action="" method="post">
+    {% csrf_token %}
+  <div class="container signup_container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="signup_box">
+
+          <div class="signup_logo">
+            <img src="/static/img/secondlogo.png" style="width: 90%;" alt="sulli shopping Logo">
+          </div>
+
+          <div class="signup_title">Login Account</div>
+
+          <form>
+          
+
+            <div class="mb-3">
+              <label class="signup_input_label">Email</label>
+              <input type="email" class="signup_input_box" {% if email %} value="{{email}}" {% endif %}  name="email" placeholder="you@example.com" required>
+                     {% if errors.email %}
+            
+            <p style="color: red;">{{errors.email}}</p>
+        
+        {%endif%}
+        {% if errors.email_exist %}
+            
+        <p style="color: red;">{{errors.email_exist}}</p>
+    
+        {%endif%}
+        {% if gmailnotexist %}
+            
+        <p style="color: red;">{{gmailnotexist}}</p>
+    
+        {%endif%}
+            </div>
+
+          
+             <div class="mb-3">
+              <label class="signup_input_label">Password</label>
+              <input type="password"  class="signup_input_box" name="password" {% if password %} value="{{password}}" {% endif %} placeholder="At least 6 characters" required>
+             
+            {% if errors.password %}
+            <p style="color: red;">{{errors.password}}</p>
+             {%endif%}
+             
+            </div>
+
+        
+
+            <button type="submit" class="signup_button">Login</button>
+            
+         <p class="forgot-password">Forgot your password? <a href="{% url 'forget_password_gmail_for_otp' %}">Reset it here</a>.</p>  
+          </form>
+
+          <div class="signup_footer_text">
+            Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
+        </div>
+           {% load socialaccount %}
+            <div class="google_btn-container">
+                <a href="{% provider_login_url 'google' %}" class="btn-social  google-btn">
+                    <img src="/static/img/google_logo.png" alt="Google Logo">
+                    Sign in with Google
+                </a>
+               
+            </div><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+        <body>
+     
+        
+        </body>
+        </center>
+        
+                
+            </div>
+            </div>
+
+    
+      </div>    
+      <!------------------------------------------------------------------------------>
+      <!DOCTYPE html>
+
+
+</body>
+</html>
+{% endblock %}

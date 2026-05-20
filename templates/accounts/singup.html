@@ -1,0 +1,100 @@
+
+{% extends 'base/shortbase.html' %} 
+
+   {% block start %}
+
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup | Amazon Style</title>
+
+  
+  <link href="bootstrap.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/signup.css">
+</head>
+<body>
+<form class="form" action="" method="post">
+    {% csrf_token %}
+  <div class="container signup_container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="signup_box">
+
+          <div class="signup_logo">
+            <img src="/static/img/secondlogo.png" style="width: 90%;" alt="sulli shopping Logo">
+          </div>
+
+          <div class="signup_title">Create Account</div>
+
+          <form>
+            <div class="mb-3">
+              <label class="signup_input_label">Your name</label>
+              <input type="text" class="signup_input_box" {% if username %} value="{{username}}" {% endif %} name="firstname" placeholder="First and last name" required>
+           {% if errors.username %}
+            
+            <p style="color: red;">{{errors.username}}</p>
+        
+        {%endif%}
+            </div>
+
+            <div class="mb-3">
+              <label class="signup_input_label">Email</label>
+              <input type="email" class="signup_input_box" {% if email %} value="{{email}}" {% endif %}  name="email" placeholder="you@example.com" required>
+                     {% if errors.email %}
+            
+            <p style="color: red;">{{errors.email}}</p>
+        
+        {%endif%}
+        {% if errors.email_exist %}
+            
+        <p style="color: red;">{{errors.email_exist}}</p>
+    
+        {%endif%}
+        {% if gmailnotexist %}
+            
+        <p style="color: red;">{{gmailnotexist}}</p>
+    
+        {%endif%}
+            </div>
+
+          
+             <div class="mb-3">
+              <label class="signup_input_label">Password</label>
+              <input type="password"  class="signup_input_box" name="password" {% if password %} value="{{password}}" {% endif %} placeholder="At least 6 characters" required>
+              <small class="text-muted">Passwords must be at least 6 characters.</small>
+            {% if errors.password %}
+            <p style="color: red;">{{errors.password}}</p>
+             {%endif%}
+             
+            </div>
+
+            <div class="mb-3">
+              <label class="signup_input_label">Re-enter password</label>
+              <input type="password" class="signup_input_box" name="confirm_password" {% if password %} value="{{password}}" {% endif %} placeholder="Confirm password" required>
+                {% if errors.password %}
+            
+            <p style="color: red;">{{errors.password}}</p>
+        
+        {%endif%}
+            </div>
+
+            <button type="submit" class="signup_button">Continue</button>
+          </form>
+
+          <div class="signup_footer_text">
+            Already have an account? <a href="{% url 'siginin' %}">Sign in</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+</body>
+</html>
+
+   
+{% endblock %}

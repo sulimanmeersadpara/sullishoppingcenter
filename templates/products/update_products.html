@@ -1,0 +1,112 @@
+
+    {% extends 'base/shortbase.html' %}
+{% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/add_products.css">
+
+
+</head>
+<body>
+  <form action="{% url 'update_product' slug  %}" class="bg-white" method="post">
+      {% csrf_token %}
+  
+  <div class="container-fluid">
+        <div class="row">
+              
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-3">Parent Category</div>
+                    <div class="col-9">
+                        <div class="custom-select">
+                            <select id="p_ctgry"  name="product_parent_category">
+                              {% for p in parent_categories %}
+                    
+                               <option value="{{p.p_c_id}}" {% if p.p_c_id is slectrId %}selected{% endif %} >{{p.p_c_name}}</option>
+                               {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-3">Child Category</div>
+                    <div class="col-9">
+                        <div class="custom-select">
+                            <select name="product_child"  id="">
+                             {% for ch_ctg in child_ctgry %}
+                            <option value="{{ch_ctg.c_c_id}}" {%if C_category %} {% if ch_ctg.c_c_id is C_category %}selected{% endif %}{% endif%} >{{ch_ctg.c_c_name}}</option>
+                             {% endfor %}
+        
+                            </select>
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-3">Product Name</div>
+                    <div class="col-9">
+                        <div class="input-container">
+                        <input type="text" {% if product_name %} value="{{product_name}}" {% endif %}  name="product_name">
+                    {% if error_product_name %}
+                    <p style="color: red;">{{error_product_name}}</p>
+                    {%endif%}
+                        </div>
+                    </div>
+                     <div class="col-3">Product Company</div>
+                    <div class="col-9">
+                        <div class="input-container">
+                                 <input type="text"   {% if product_company %} value="{{product_company}}" {% endif %}   name="product_company">
+                                  {% if error_company %}
+                                   <p style="color: red;">{{error_company}}</p>
+                                     {%endif%}
+                        </div>
+                    </div>
+                       <div class="col-3">For Gender</div>
+                    <div class="col-9">
+                        {% for g in genders %}
+                        <label class="radio-container">{{g.g_name}}
+                            <input type="radio"   {% if gender %} {% if gender is g.g_id %} checked="checked" {% endif %}{% endif %}  value="{{g.g_id}}" name="Gender">
+                            <span class="custom-radio"></span>
+                            </label>
+                            {% endfor %}
+                   
+                    </div>
+                    
+
+                    <div class="col-3">Product Description</div>
+                    <div class="col-9">
+                        <div class="input-container">
+                            <textarea placeholder="Write description about product..." name="product_description" > {% if product_description %} {{product_description}} {% endif %} </textarea>
+                        </div>
+                    </div>
+
+  <div class="col-3"></div>
+  <div class="col-9 mt-3"><button type="submit" class="btn btn-primary" style="width: 100%;">update</button>
+<br><br></div>
+  </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<br><br>
+</body>
+  
+<script>
+  
+const parentCategory=document.getElementById('p_ctgry');
+parentCategory.addEventListener('change',(event)=>
+{
+const selectedCategory=event.target.value;
+
+window.location.href=window.location.pathname+`?slectedcategoryId=${selectedCategory}`;
+
+});
+
+</script>
+
+</html>
+{% endblock %}

@@ -1,0 +1,344 @@
+   {% extends 'base/shortbase.html' %}
+    {% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/add_products.css">
+          <script>
+        var color_size_boxes=1;
+
+  </script>
+    <script>
+        var image_boxes=1000;
+
+  </script>
+
+</head>
+<body>
+  <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+  
+  <div class="container-fluid form">
+        <div class="row">
+              
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-3">Parent Category</div>
+                    <div class="col-9">
+                        <div class="custom-select">
+                            <select id="p_ctgry"  name="product_parent_category">
+                              {% for p in parent_categories %}
+                    
+                               <option value="{{p.p_c_id}}" {% if p.p_c_id is slectrId %}selected{% endif %} >{{p.p_c_name}}</option>
+                               {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-3">Child Category</div>
+                    <div class="col-9">
+                        <div class="custom-select">
+                            <select name="product_child"  id="">
+                             {% for ch_ctg in child_ctgry %}
+                            <option value="{{ch_ctg.c_c_id}}" {%if C_category%} {% if ch_ctg.c_c_id is C_category %}selected{% endif %}{% endif%} >{{ch_ctg.c_c_name}}</option>
+                             {% endfor %}
+        
+                            </select>
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-3">Product Name</div>
+                    <div class="col-9">
+                        <div class="input-container">
+                <input type="text"   {% if product_name %} value="{{product_name}}" {% endif %}  name="product_name">
+                    {% if error.product_name %}
+                    <p style="color: red;">{{error.product_name}}</p>
+                    {%endif%}
+                        </div>
+                    </div>
+
+                     <div class="col-3">Product Company</div>
+                    <div class="col-9">
+                        <div class="input-container">
+                                 <input type="text"   {% if product_company %} value="{{product_company}}" {% endif %}   name="product_company">
+                                  {% if error.company %}
+            
+                                   <p style="color: red;">{{error.company}}</p>
+            
+                                     {%endif%}
+                        </div>
+                    </div>
+
+                       <div class="col-3">For Gender</div>
+                    <div class="col-9">
+                      {% for g in genders %}
+                        <label class="radio-container">{{g.g_name}}
+                            <input type="radio"  checked  {% if gender %} {% if gender is g.g_id %} checked="checked" {% endif %}{% endif %}  value="{{g.g_id}}" name="Gender">
+                            <span class="custom-radio"></span>
+                            </label>
+                            {% endfor %}
+                        
+                    </div>
+                    <div class="col-12">
+                        
+  <div class="form-container">
+    <h2> Sizes, Colors, prices, quantity, is sale , sale price</h2>
+    <button type="button" class="remove-btn remove-btn-disable" onclick="removerPair()">-</button>
+    <button class="add-btn" type="button" onclick="addPair()">+</button>
+    <div id="pairs-container">
+        
+  <div class=" pair-group" id="1">
+    <div class="size_color_price_id" id="size_color_price_id">1</div>
+   <select id="sizes" class="select_color_size" name="product_sizes" >
+      
+        {% for s in sizes %}
+          <option value="{{s.id}}">{{s.size_name}}</option>
+        {% endfor %}
+                    
+    </select>
+     <select id="colors" name="product_colors" class="select_color_size">
+          {% for c in colors %}
+          <option value="{{c.id}} " style=" background-color: {{c.color_code}}; color: white;">{{c.color_name}}</div></option>
+          {% endfor %}
+      </select>
+    <input type="number" class="select_color_size_price " value="0" name="product_price" id="price" placeholder="enter price of the product">
+    <input type="number" class="select_color_size_quantity " value="0" name="product_quantity" id="quantity" placeholder="enter quantity of this product">
+    
+    <input type="checkbox" name="is_sale_checkbox" value="1" class="form-check-input" onchange="is_sale_checkbox_func()" id="is_sale">
+  is sale
+   <input type="number" class="select_color_size_price " name="product_sale_price" id="sale_price" value="0" placeholder="enter sale price of the product">
+    
+  </div>
+   {% if error.sizes %}
+            <p style="color: red;">{{error.sizes}}</p>
+            {%endif%}
+       {% if error.colors %}
+            <p style="color: red;">{{error.colors}}</p>
+    {%endif%}
+   {% if error.price %}
+            
+            <p style="color: red;">{{error.price}}</p>
+            
+            {%endif%}
+            {% if error.quantity %}
+            
+            <p style="color: red;">{{error.quantity}}</p>
+            
+            {%endif%}
+  </div>
+    </div>
+  </div>
+
+                    <div class="col-3">Product Description</div>
+                    <div class="col-9">
+                        <div class="input-container">
+                            <textarea placeholder="Write description about product..." name="product_description" > {% if product_description %} {{product_description}} {% endif %} </textarea>
+                        </div>
+                    </div>
+<div class="col-3">images</div>
+<div class="col-9">
+    <div class="form-container">
+    <h2 id="image_heading">Images</h2>
+    <button class="remove-image-btn remove-image-btn-disable" type="button" onclick="removeImages()">-</button>
+    <button class="add-image-btn" type="button" onclick="addImages()">+</button>
+    <div id="pairs-image-container">
+        
+  <div class=" pair-image-group" id="1000">
+  
+    <input type="file" id="image_file" name="image" >
+   <select name="product_variant_number" id="product_variant_number">
+      <option value="1">for color_size 1</option>
+    </select>
+     
+  </div>  
+  </div>
+    </div>
+     {% if error.image %}
+            
+                <p style="color: red;">{{error.image}}</p>
+            
+            {%endif%}
+            {% if error.images_empty %}
+            
+            <p style="color: red;">{{error.images_empty }}</p>
+        
+        {%endif%}
+  </div>
+  <input type="hidden" value="1" name="total_product_variants" id="total_product_variants">
+  
+  <div class="col-3"></div>
+  <div class="col-9 mt-3"><button type="submit" class="btn btn-primary" style="width: 100%;">Save</button><br><br></div>
+  </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<br><br>
+</body>
+  <script>
+    function addPair() {
+      color_size_boxes=color_size_boxes+1;
+      const container = document.getElementById('pairs-container');
+      const pairDiv = document.createElement('div');
+      pairDiv.className = 'pair-group';
+      pairDiv.id=color_size_boxes;
+      const id_box=document.getElementById('size_color_price_id');
+      const select_size_box=document.getElementById('sizes');
+      const select_color_box=document.getElementById('colors');
+      const price_box=document.getElementById('price')
+      const quantity_box=document.getElementById('quantity');
+      const is_check_box=document.getElementById('is_sale');
+      const is_sale_input_box=document.getElementById('sale_price')
+      const newid_box=id_box.cloneNode(true);
+      newid_box.innerText=color_size_boxes;
+      const new_select_size_box=select_size_box.cloneNode(true);
+      const new_select_color_box=select_color_box.cloneNode(true);
+      const new_price_box=price_box.cloneNode(true);
+      const new_quantity_box=quantity_box.cloneNode(true);
+      const new_is_check_box=is_check_box.cloneNode(true);
+      const new_is_sale_input_box=is_sale_input_box.cloneNode(true);
+      new_select_color_box.selectedIndex = 0;
+      new_select_size_box.selectedIndex=0;
+      new_price_box.value=0;
+      new_quantity_box.value=0;
+      new_is_check_box.checked = false
+      new_is_check_box.value=color_size_boxes
+     new_is_sale_input_box.value=0;
+      pairDiv.appendChild(newid_box);
+      
+      //pairDiv.classList.add('size_color_price_id');
+      pairDiv.appendChild(new_select_size_box);
+      pairDiv.appendChild(new_select_color_box);
+      pairDiv.appendChild(new_price_box);
+      pairDiv.appendChild(new_quantity_box);
+      pairDiv.appendChild(new_is_check_box);
+      pairDiv.appendChild(new_is_sale_input_box);
+      container.appendChild(pairDiv);
+      //the code for image field
+      const imageSelect = document.getElementById("product_variant_number");
+      imageSelect.innerHTML = "";
+        for (let i = 1; i <= color_size_boxes; i++) {
+          const option = document.createElement("option");
+          option.value = i;
+          option.text = 'for color_size '+i;
+          imageSelect.appendChild(option);
+        }
+        
+      const total_product_variants=document.getElementById('total_product_variants');
+      total_product_variants.value=color_size_boxes;
+    if(color_size_boxes == 1){
+      document.querySelector('.remove-btn').classList.add('remove-btn-disable');
+      document.querySelector('.remove-btn').classList.remove('remove-btn-active');
+      
+    }
+    else if (color_size_boxes > 1){
+       document.querySelector('.remove-btn').classList.add('remove-btn-active');
+    document.querySelector('.remove-btn').classList.remove('remove-btn-disable');
+      
+    }
+      console.log( color_size_boxes)
+    }
+    function removerPair() 
+    {
+      
+      if (color_size_boxes>1){
+      document.getElementById(color_size_boxes).remove();
+      color_size_boxes=color_size_boxes-1;
+     
+    if(color_size_boxes == 1){
+      document.querySelector('.remove-btn').classList.add('remove-btn-disable');
+      document.querySelector('.remove-btn').classList.remove('remove-btn-active');
+      
+    }
+    else if (color_size_boxes > 1){
+       document.querySelector('.remove-btn').classList.add('remove-btn-active');
+    document.querySelector('.remove-btn').classList.remove('remove-btn-disable');
+      
+    } 
+      }
+      const imageSelect = document.getElementById("product_variant_number");
+      imageSelect.innerHTML = "";
+        for (let i = 1; i <= color_size_boxes; i++) {
+          
+          const option = document.createElement("option");
+          option.value = i;
+          option.text = 'for color_size '+i;
+          imageSelect.appendChild(option);
+        }
+      const total_product_variants=document.getElementById('total_product_variants');
+      total_product_variants.value=color_size_boxes;
+    }
+</script>
+  
+  <script>
+   function addImages() {
+      image_boxes=image_boxes+1;
+      const container = document.getElementById('pairs-image-container');
+      const pairDiv = document.createElement('div');
+      
+      pairDiv.className = 'pair-image-group';
+      pairDiv.id=image_boxes;
+      const image_box=document.getElementById('image_file');
+      const product_variant_number=document.getElementById('product_variant_number');
+      
+      const new_image_box=image_box.cloneNode(true);
+      new_image_box.value=""
+      const new_product_variant_number=product_variant_number.cloneNode(true);
+      new_product_variant_number.selectedIndex = 0;
+      pairDiv.appendChild(new_image_box);
+      pairDiv.appendChild(new_product_variant_number);
+
+      container.appendChild(pairDiv);
+      
+    if(image_boxes == 1000){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1000){
+    document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+    document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    }
+    }
+    function removeImages() 
+    {
+      
+      if (image_boxes>1000){
+      document.getElementById(image_boxes).remove();
+      image_boxes=image_boxes-1;
+     
+    if(image_boxes == 1000){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1000){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    } 
+      }
+    }
+</script>
+<script>
+const parentCategory=document.getElementById('p_ctgry');
+parentCategory.addEventListener('change',(event)=>
+{
+const selectedCategory=event.target.value;
+window.location.href=window.location.pathname+`?slectedcategoryId=${selectedCategory}`;
+});
+</script>
+<script>
+  function is_sale_checkbox_func(){
+    console.log('ok');
+  }
+</script>
+</html>
+{% endblock %}

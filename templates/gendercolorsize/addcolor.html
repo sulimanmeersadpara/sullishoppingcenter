@@ -1,0 +1,32 @@
+{% extends 'base/shortbase.html' %}
+   {% block start %}
+   <form action="" method="post">
+      {% csrf_token %}
+   <div class="container">
+      <div class="row">
+         <div class="col-3"></div>
+         <div class="col-6">
+            <div class="row bg-white">
+               <br><br>
+               <div class="col-4">
+                  <br>Color Name</div>
+               <div class="col-8">
+                  <br>
+                  <input type="text" name="color_name" id="" class="form-control">
+               </div>   
+               <br>
+               
+               <div class="col-4"><br>Color code</div>
+               <div class="col-8">
+                  <br>
+                  <input type="color" name="color_code" id="" class="form-control">
+               </div>
+               <div class="col-4"></div>
+               <div class="col-8"><br><button type="submit" class="btn btn-primary">add color</button><br></div>
+            </div>
+         </div>
+         <div class="col-3"></div>
+      </div>
+   </div>
+   </form>
+{% endblock %}

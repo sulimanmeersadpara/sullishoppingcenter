@@ -1,0 +1,37 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+<div class="container bg-white">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+                <form action="" method="post">
+                    {% csrf_token %}
+            <div class="row">
+            <div class="col-4"><br>child category name</div>
+            <div class="col-8">
+                <br><input type="text" value="{{child_category.c_c_name}}" name="child_category" class="form-control">
+            </div>
+            
+                <div class="col-4"><br>parent category</div>
+                <div class="col-8">
+                    <br><select name="parent_category" class="form-control" id="">
+                        {% for parent_category in parent_categories %}
+                        
+                        <option value="{{parent_category.p_c_id}}" {% if child_category.p_category.p_c_id is parent_category.p_c_id %} selected {% endif %}>
+                            {{parent_category.p_c_name}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                
+                </div>
+                <div class="col-4"></div>
+                <div class="col-8"><br><button type="submit" class="btn btn-primary">update child category</button><br></div>
+
+            </div>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+{% endblock %}

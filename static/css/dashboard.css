@@ -1,0 +1,10 @@
+
+    #profile_image{
+      transition: all;
+      transition-duration: 0.5s;
+    }
+    #profile_image:hover{
+
+      opacity: 0.3;
+
+    }

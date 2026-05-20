@@ -1,0 +1,315 @@
+ {% extends 'base/shortbase.html' %} 
+
+   {% block start %}
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+  <style>
+  /* Overlay styles */
+    .modalOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+    
+      transition: opacity 0.4s ease;
+    }
+
+    .active_desc {
+      opacity: 1;
+      display: block;
+      
+    }
+  
+
+    /* Modal box */
+    #modalBox {
+      background: rgb(253, 253, 253);
+      padding: 30px;
+      
+      width: 60%;
+      position: relative;
+      top:30%;
+      left: 20%;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    /* Close button */
+    .closeBtn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: red;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+    .hidden_desc{
+        display: none;
+    }
+    
+
+
+  
+  </style>
+</head>
+<body>
+          <div class="container">
+        <div class="row">
+            
+            <div class="col-4"></div>
+            <div class="col-4 mt-3">  
+                 <select class="form-select form-select-lg mb-3" id="p_ctgry" aria-label=".form-select-lg example">
+                  <option value="-1">Open this and select a parent category</option>
+                  {% for p in parent_categories %}
+                  <option {% if p_category_id %} {% if p.p_c_id is p_category_id %}selected{% endif %}{% endif %} value="{{p.p_c_id}}">{{p.p_c_name}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="col-3 mt-3"><select class="form-select form-select-sm" id="c_ctgry"  aria-label=".form-select-sm example">
+                  <option>Open this select child category</option>
+                  {% for c in child_categories %}
+                  <option {% if c_category_id %} {% if c.c_c_id is c_category_id %}selected{% endif %}{% endif %}  value="{{c.c_c_id}}">{{c.c_c_name}}</option>
+                  {% endfor %}
+                </select></div>
+                <div class="col-1"></div>
+                <div class="col-2"></div>
+                <div class="col-8">          
+        
+
+                </div>
+                <div class="col-2"></div>
+        </div>
+      </div>
+    <div class="container bg-white" style="border-radius: 3%;">
+
+        <!-- Main Content -->
+       
+            
+                <h1>Product List </h1>
+                <div class="row">
+                    <div class="col-8"></div>
+                    <div class="col-4">
+                        <div class="row">
+                           
+
+                            
+                                 {% if perms.products.add_product %}  
+                                    <a href="{% url 'add_products' %}">
+                    <button class="btn btn-primary" id="addRoomBtn">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+
+                </a>
+                            {% endif %}
+                        </div>
+                       
+                    
+                
+                </div>
+                </div>
+           
+
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            
+                                <th>Product Id</th>
+                                <th>Product Name</th>
+                                <th>Product Company</th>
+                                <th>Gender</th>
+                                <th>product description</th>
+                                <th>related child category</th>
+                                <th>Image</th>
+                                <th>Product Variants</th>
+                                 {% if perms.products.change_product %}  
+                                <th>
+                                   
+                                    update
+                                   
+                                </th>
+                                 {% endif %}
+                                 {% if perms.products.delete_product %}  
+                                <th>
+                                    
+                                    delete
+                                   
+                                </th>
+                                 {% endif %}
+                            
+                        </thead>
+                        
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                               <td>  {{product.p_id}}</td>
+                                <td> {{product.p_name}}</td>
+                                <td>{{product.p_compony}}</td>
+                                <td>       
+                                  {{product.p_gender.g_name}}
+                                </td>
+                            
+                                <td>
+                                    {% include 'products/description.html' %}
+                                </td>
+                                <td>{{product.p_child_category.c_c_name}}</td>
+                                
+                                <td><img  src="/media/images//{{product.p_image.first.image}}" style="width: 4vw;" alt=""></td>
+                                <td> <a href="{% url 'product_variants_menpulation' product.slug %}"><button class="btn btn-outline-success">productVariantMenipulation </button> </a></td>
+                                 {% if perms.products.change_product %}  
+                                <td>
+                                    
+                                    <a href="{% url 'update_product' product.slug  %}">
+                                        <button class="btn btn-outline-primary">Update</button>
+                                        </a>
+                                       
+                            </td>
+                             {% endif %}
+                            {% if perms.products.delete_product %}  
+                                <td>
+                                    
+                                    <a href="{% url 'delete_products' product.slug %}">
+                                    <button class="btn btn-outline-warning">Delete</button></a>
+                                    
+                                </td>
+                                {% endif %}
+                                </tr>
+                                  {% endfor %}
+                        </tbody>
+                        
+                    </table>
+                    </div>
+                </div>                    
+            </div>
+        </main>
+    </div>
+
+
+
+<div class="pagination">
+           <div class="container">
+      <div class="row">
+        <div class="col-12">
+         
+            
+              <center>
+    {% if p_category_id and not c_category_id%}
+                {% if products.has_previous %}
+                <a href="?page=1&slectedPcategoryId={{p_category_id}}" class="">first</a>
+                  <a href="?page={{products.previous_page_number}}&slectedPcategoryId={{p_category_id}}">preve</a>
+                {% endif %}
+                  {%for n in totalPagelist %}
+                  {% if page_no == n %}
+                  <a  href="?page={{n}}&slectedPcategoryId={{p_category_id}}" class="active">{{n}}</a>
+                  
+                {% else %} 
+                <a  href="?page={{n}}&slectedPcategoryId={{p_category_id}}">{{n}}</a>
+                {% endif %}
+                  {% endfor %}
+                  
+                {% if products.has_next %}
+                        
+                  <a href="?page={{products.next_page_number}}&slectedPcategoryId={{p_category_id}}">next</a>
+                  <a href="?page={{lastpage}}&slectedPcategoryId={{p_category_id}}">last</a>
+                  {% endif %}
+                
+
+{% elif p_category_id and c_category_id%}
+
+                {% if products.has_previous %}
+                <a href="?page=1&?slectedPcategoryId={{p_category_id}}&slectedCcategoryId={{c_category_id}}" class="">first</a>
+                  <a href="?page={{products.previous_page_number}}&slectedPcategoryId={{p_category_id}}&?slectedCcategoryId={{c_category_id}}">preve</a>
+                {% endif %}
+                  {%for n in totalPagelist %}
+                  {% if page_no == n %}
+                  <a  href="?page={{n}}&slectedPcategoryId={{p_category_id}}&slectedCcategoryId={{c_category_id}}" class="active">{{n}}</a>
+                  
+                {% else %} 
+                <a  href="?page={{n}}&slectedPcategoryId={{p_category_id}}&slectedCcategoryId={{c_category_id}}">{{n}}</a>
+                {% endif %}
+                  {% endfor %}
+                  
+                {% if products.has_next %}
+                        
+                  <a href="?page={{products.next_page_number}}&slectedPcategoryId={{p_category_id}}&slectedCcategoryId={{c_category_id}}">next</a>
+                  <a href="?page={{lastpage}}&slectedPcategoryId={{p_category_id}}&slectedCcategoryId={{c_category_id}}">last</a>
+                  {% endif %}
+            
+{% else %}
+                {% if products.has_previous %}
+                <a href="?page=1" class="">first</a>
+                  <a href="?page={{products.previous_page_number}}">preve</a>
+                {% endif %}
+                  {%for n in totalPagelist %}
+                  {% if page_no == n %}
+                  <a  href="?page={{n}}" class="active">{{n}}</a>
+                  
+                {% else %} 
+                <a  href="?page={{n}}">{{n}}</a>
+                {% endif %}
+                  {% endfor %}
+                  
+                {% if products.has_next %}
+                        
+                  <a href="?page={{products.next_page_number}}">next</a>
+                  <a href="?page={{lastpage}}">last</a>
+                  {% endif %}
+
+{% endif %}
+</center>
+
+              </div>
+          
+          </div>
+          </div>
+        </div>
+   
+
+    
+        <script>
+const parentCategory=document.getElementById('p_ctgry');
+parentCategory.addEventListener('change',(event)=>
+{
+const selectedCategory=event.target.value;
+
+window.location.href=window.location.pathname+`?slectedPcategoryId=${selectedCategory}`;
+
+});
+const childCategory=document.getElementById('c_ctgry');
+childCategory.addEventListener('change',(event)=>
+{
+const selectedCategory=event.target.value;
+
+const childCategory=document.getElementById('p_ctgry');
+value=childCategory.value;
+console.log(value)
+window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`+`&slectedPcategoryId=${value}`;
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`;
+
+});
+
+
+    </script>
+
+
+    
+</body>
+</html>
+{% endblock %}

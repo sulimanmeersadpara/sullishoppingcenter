@@ -1,0 +1,247 @@
+
+  {% extends 'base/shortbase.html' %} 
+
+   {% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiksilver T-Shirt</title>
+<link rel="stylesheet" href="/static/css/products.css">
+
+</head>
+<body>
+
+<div class="container-fluid " style="margin-left: 10px; width: 98%;">
+  <div class="row main_container">
+    <!-- Left: Images -->
+    <div class="col-1 small-images">
+      {% for images in product.product_variant.all %}
+      <img src="/media/images/{{images.image}}" class="thumbnail-img" alt="thumb">
+      <br>
+      {% endfor %}
+     
+    </div>
+
+    <!-- Middle: Main Image & Info -->
+    <div class="col-3">
+      <img src="/media/images/{{product.product_variant.first.image}}" id="main" class="img-fluid mb-2" alt="Main Image">
+      </div>
+      <div class="col-4">
+      <div class="mt-2" >
+        {% if product.p_is_sale %}
+         <p class="price_heading">Rs.{{product.sale_price}}</p>+<i style="font-size: 1vw;">shipping charges</i>
+        <p class="original-price">Rs.{{product.price}}</p>
+        {% else %}
+         <p class="price_heading">Rs.{{product.price}}</p>+<i style="font-size: 1vw;">shipping charges</i>
+        {% endif %}
+      </div>
+      {% if selected_color_list %}
+      <p style="font-size: 1.5vw;"><strong>Color:</strong>{{product.color}}</p>
+
+      <!-- Colors -->
+      <div class="d-flex flex-wrap">
+        
+        {% for color in selected_color_list %}
+        
+        {% if selected_color == color.color_name %}
+        <div style="border-radius: 100px; border: 2px double black;">
+        <label class=" color-box " style=" border-radius:100%; background-color: {{color.color_code}}; ">
+            <input type="radio" style="display: none;" id="color" name="color" value="{{color.color_name}}" onchange="get_correct_price_by_color()"  {% if selected_color == color.color_name %} checked=""  {% endif %}> 
+        </label>
+        </div>
+        {% else %}
+        <label class="color-box " style=" border-radius: 100%; background-color: {{color.color_code}};">
+            <input type="radio" style="display: none;" id="color" name="color" value="{{color.color_name}}" onchange="get_correct_price_by_color()"  {% if selected_color == color.color_name %} checked=""  {% endif %}> 
+        </label>
+          {% endif %}
+        {% endfor %}
+        
+      </div>
+      <br>
+    {% endif %}
+      <!-- Size -->
+       {% if selected_size_list %}
+      <p class="mt-4" style="font-size: 1.5vw;"><strong>Size:</strong> {{product.size}}</p>
+      <div class="btn-group d-flex flex-wrap">
+        {% for size in selected_size_list %}
+        {% if selected_size == size.size_name %} 
+        <label class=" size-btn" style="background-color: rgb(106, 106, 134); color: white;">  <input type="radio" style="display: none;" name="size" id="size" value="{{size.size_name}}"  onchange="get_correct_price_by_size()"  {% if selected_size == size.size_name %} checked="" {% endif %}> <b>{{size.size_name}}</b>
+          </label> 
+        {% else %}
+        <label class="size-btn">  <input type="radio" style="display: none;" name="size" id="size" value="{{size.size_name}}"  onchange="get_correct_price_by_size()"  {% if selected_size == size.size_name %} checked="" {% endif %}>{{size.size_name}} 
+        
+                        
+        
+        </label>
+         {% endif %}  
+        {% endfor %}
+        
+      </div>
+ {% endif %}
+      
+    </div>
+
+    <!-- Right: Cart -->
+    <div class="col-4">
+        <form action="{% url 'AtToCard' %}" method="post">
+    {% csrf_token %}
+     
+      <div class="border p-3" style="width: 100%;">
+        
+        
+        <div class="text-stock_quantity mt-2">In Stock <strong>{{product.quantity}}</strong> items left</div>
+                            <input type="hidden" name="slug" value="{{product.product.slug}}">
+                            
+        <div class="mt-2 mb-2">
+
+          <label for="qty" style="font-size: 1.3vw;">Quantity:</label>
+          <select id="qty" name="quantity"  required class="quantity_select">
+            
+            <option value="">please select quantity</option>
+            {% for  i in range_quantities %}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+            
+          </select>
+        </div>
+        <input type="hidden" name="product_variant" value="{{product.pv_id}}">
+    <button type="submit" class="btn-orange mb-2">Add to Cart</button>
+        <button class="btn-orange ">Buy Now</button>
+
+        <div class="mt-3">
+
+      
+        </div>
+
+<div class="mt-4 product-details">
+        <h6 style="font-size: 1.3vw;">Product details</h6>
+        <p style="font-family: Arial, Helvetica, sans-serif; font-size: 1vw; color: #4e565b;">{{product.product.p_description}}</p>
+      </div>
+      </div>
+      </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    
+    <div style="margin-left:10px ; width: 98%; background-color: white; border-radius: 20px; margin-top: 5px;">
+      <div style=" margin-left: 20px; display: inline; color: #4e565b; font-size: 2vw; font-weight: bold; font-family: Arial, Helvetica, sans-serif;">Related Products</div>
+    </div>
+   <div style="margin-top: 0.5vw;"></div>
+ {% for product in related_products %}                       
+
+        <div class="col-2" style="background-color: rgb(255, 255, 255);">
+        <a href="{% url 'products_detail' product.slug %}" style="text-decoration: none;">
+          <div class="related_product-card">
+            <img src="/media/images/{{product.p_image.first.image}}" class="product-image" alt="Product Image">
+            <div class="product-info">
+              <!--<div class="product-price">Rs.{{product.p_price}}</div>-->
+            </div>
+          </div>   
+          <div class="related_product-name"><center>{{product.p_name}}</center></div>
+              <div class="related_product-price"><center>Rs.{{product.min_price}} - Rs.{{product.max_price}}</center></div>
+            <div class="related_product-company"><center>{{product.p_compony}}</center></div>
+          </a>
+        </div>
+    {% endfor %}
+              </div>
+              </div>
+             <div class="container">
+              <div class="row">
+        <div class="col-12">
+         <center>
+            <div class="pagination">
+      
+            {% if related_products.has_previous %}
+            <a href="/?page=1" class="">first</a>
+              <a href="/?page={{related_products.previous_page_number}}">preve</a>
+            {% endif %}
+              {%for n in totalPagelist %}
+              {% if page_no == n %}
+              <a  href="/?page={{n}}" class="active">{{n}}</a>
+              
+            {% else %} 
+             <a  href="/?page={{n}}">{{n}}</a>
+             {% endif %}
+              {% endfor %}
+              
+            {% if related_products.has_next %}
+                    
+              <a href="/?page={{related_products.next_page_number}}">next</a>
+              <a href="/?page={{lastpage}}">last</a>
+              {% endif %}
+             
+                    
+            </div>
+          </center>
+        </div>
+      </div>
+  </div> 
+             
+
+ 
+</body>
+</html>
+
+<script>
+
+        function get_correct_price_by_size(){
+          //  console.log(size)
+          //console.log(window.location.pathname)-> product/<slug>
+           // console.log(window.location.pathname+`?size=${size}`)
+            const c=document.getElementsByName('color')
+            let selected_color=''
+            for (var color of c){
+                if (color.checked==true) {
+                    selected_color = color.value;
+                    break;
+                }
+            
+            }
+            console.log(selected_color)
+         
+        
+           const size=event.target.value;
+          window.location.href=window.location.pathname+`?size=${size}`+`&color=${selected_color}`+`&status=size`;
+        }
+        function get_correct_price_by_color(){
+          //  console.log(size)
+          //console.log(window.location.pathname)-> product/<slug>
+           // console.log(window.location.pathname+`?size=${size}`)
+    
+           const c=document.getElementsByName('size')
+            let selected_size=''
+            for (var size of c){
+                if (size.checked==true) {
+                    selected_size = size.value;
+                    break;
+                }
+            
+            }
+            console.log(selected_size)
+          const color=event.target.value;
+          window.location.href=window.location.pathname+`?color=${color}`+`&size=${selected_size}`+`&status=color`;
+        }
+    
+</script>
+
+  <script>
+    const mainImage = document.getElementById('main');
+    const thumbnails = document.querySelectorAll('.small-images img');
+
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const tempSrc = mainImage.src;
+        mainImage.src = thumb.src;
+        thumb.src = tempSrc;
+      });
+    });
+  </script>
+
+
+{% endblock %}

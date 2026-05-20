@@ -1,0 +1,13 @@
+signup.css
+singin.html
+singup.html
+base.html
+shortbase.html
+search.html
+views.py of add_to_card
+urls.py of add_to_card
+product_list.html
+view.py of procut_list.html
+add_product.html
+update_product.html
+views of home.html and category_wise_data.html

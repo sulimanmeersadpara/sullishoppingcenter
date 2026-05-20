@@ -1,0 +1,25 @@
+<button class="btn btn-primary " id="openBtn{{product.p_id}}">description</button>
+ <div id="modalOverlay{{product.p_id}}" class="hidden_desc modalOverlay">
+                                    <div id="modalBox">
+                                    <button class="closeBtn" id="closeBtn{{product.p_id}}">X</button>
+                                    <h2>Description Of Product</h2>
+                                    <p>{{product.p_description}}</p>
+                                    </div>
+ </div>
+
+                                         <script>
+    const openBtn{{product.p_id}} = document.getElementById('openBtn{{product.p_id}}');
+    const closeBtn{{product.p_id}} = document.getElementById('closeBtn{{product.p_id}}');
+    const modalOverlay{{product.p_id}} = document.getElementById('modalOverlay{{product.p_id}}');
+
+    openBtn{{product.p_id}}.onclick = () => {
+      modalOverlay{{product.p_id}}.classList.add('active_desc');
+      modalOverlay{{product.p_id}}.classList.remove('hidden_desc');
+    };
+
+    closeBtn{{product.p_id}}.onclick = () => {
+        
+      modalOverlay{{product.p_id}}.classList.add('hidden_desc');
+      modalOverlay{{product.p_id}}.classList.remove('active_desc');
+    };
+  </script>

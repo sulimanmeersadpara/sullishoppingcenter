@@ -1,0 +1,16 @@
+   {% extends 'base/shortbase.html' %}
+    {% block start %}
+    
+<h1>employees</h1>
+{% for emp in employees%}
+{{emp.username}}
+<br>
+{% endfor %}
+
+<h1>permisions</h1>
+{% for perm in permissions %}
+
+{{perm.name}}
+<br>
+{% endfor %}
+{% endblock %}

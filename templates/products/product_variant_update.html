@@ -1,0 +1,335 @@
+   {% extends 'base/shortbase.html' %}
+    {% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/css/add_products.css">
+ <script>
+        var image_boxes=1;
+
+  </script>
+<style>
+    .form-container {
+        background-color: rgb(232, 222, 222);
+    }
+    .select_color_size {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid #6c5ce7;
+      border-radius: 12px;
+      background: white url('data:image/svg+xml;utf8,<svg fill="%236c5ce7" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;/*it is for drop down icon*/
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      
+    }
+
+
+     .select_color_size_price {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid #6c5ce7;
+      border-radius: 12px;
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      margin-top: 20px;
+    }
+    .select_color_size_quantity {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid #6c5ce7;
+      border-radius: 12px;
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+
+    .select_color_size:hover, select:focus {
+      border-color: #4834d4;
+      outline: none;
+      box-shadow: 0 0 8px rgba(108, 92, 231, 0.5);
+    }    
+
+</style>
+</head>
+<body>
+  <form action="" method="post">
+      {% csrf_token %}
+  
+  <div class="container">
+        <div class="row">   
+                <div class="form-container">
+    
+               <div class="container">
+                <div class="row">
+                    <div class="col-3">size</div>
+                    <div class="col-9">
+                               <select id="sizes" class="select_color_size" name="product_sizes" >
+                                    {% for s in sizes %}
+                                    {% if s.id is products.size.id %}
+                                    <option value="{{s.id}}" selected>{{s.size_name}}</option>
+                                    {% else %}
+                                    <option value="{{s.id}}">{{s.size_name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                                
+                                </select>
+                                {% if error.sizes %}
+                             <p style="color: red;">{{error.sizes}}</p>
+                    {%endif%}
+                    </div>
+                    <div class="col-3">color</div>
+                    <div class="col-9">
+                        <select id="colors" name="product_colors" class="select_color_size">
+                            {% for c in colors %}
+                            {% if c.id is products.color.id %}
+                            <option value="{{c.id}}" style=" background-color: {{c.color_code}}; color: white;" selected>{{c.color_name}}</option>
+                            {% else %}
+                            <option value="{{c.id}}" style=" background-color: {{c.color_code}}; color: white;">{{c.color_name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                        {% if error.colors %}
+                                <p style="color: red;">{{error.colors}}</p>
+                        {%endif%}
+                     </div>
+                     <div class="col-3">original price</div>
+                     <div class="col-9">
+                         <input type="number" class="select_color_size_price " value="{{products.price}}" name="product_price" id="price" placeholder="enter price of the product">
+                     {% if error.price %}
+                    
+                    <p style="color: red;">{{error.price}}</p>
+                    
+                    {%endif%}
+                        </div>
+                     <div class="col-3">quantity</div>
+                     <div class="col-9">
+                         <input type="number" class="select_color_size_quantity " value="{{products.quantity}}" name="product_quantity" id="quantity" placeholder="enter quantity of this product">
+                        {% if error.quantity %}
+            
+                            <p style="color: red;">{{error.quantity}}</p>
+                            
+                            {%endif%}
+                        </div>
+                     <div class="col-3">is sale</div>
+                     <div class="col-9">
+                        <br>
+                        {% if products.p_is_sale%}
+                          <input type="checkbox" name="is_sale_checkbox" checked class="form-check-input" onchange="is_sale_checkbox_func()" id="is_sale">
+                        {% else %}
+                    <input type="checkbox" name="is_sale_checkbox" class="form-check-input" onchange="is_sale_checkbox_func()" id="is_sale">
+                       
+                        {% endif %}
+                        </div>
+                     <div class="col-3">sale price</div>
+                     <div class="col-9">
+                     <input type="number" class="select_color_size_price " name="product_sale_price" id="sale_price" value="{{products.sale_price}}" placeholder="enter sale price of the product">
+                    {% if error.sale_price %}
+                            <p style="color: red;">{{error.sale_price}}</p>
+                            {%endif%} 
+                    </div>
+                </div>
+               </div>
+              
+          
+         
+   
+  
+  
+   
+       
+   
+        <br>
+  
+    </div>
+  
+
+
+  <div class="col-3"></div>
+  <div class="col-9 mt-3"><button type="submit" class="btn btn-primary" style="width: 100%;">Update</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<br><br>
+</body>
+  <script>
+    function addPair() {
+      color_size_boxes=color_size_boxes+1;
+      const container = document.getElementById('pairs-container');
+      const pairDiv = document.createElement('div');
+      pairDiv.className = 'pair-group';
+      pairDiv.id=color_size_boxes;
+      const id_box=document.getElementById('size_color_price_id');
+      const select_size_box=document.getElementById('sizes');
+      const select_color_box=document.getElementById('colors');
+      const price_box=document.getElementById('price')
+      const quantity_box=document.getElementById('quantity');
+      const is_check_box=document.getElementById('is_sale');
+      const is_sale_input_box=document.getElementById('sale_price')
+      const newid_box=id_box.cloneNode(true);
+      newid_box.innerText=color_size_boxes;
+      const new_select_size_box=select_size_box.cloneNode(true);
+      const new_select_color_box=select_color_box.cloneNode(true);
+      const new_price_box=price_box.cloneNode(true);
+      const new_quantity_box=quantity_box.cloneNode(true);
+      const new_is_check_box=is_check_box.cloneNode(true);
+      const new_is_sale_input_box=is_sale_input_box.cloneNode(true);
+      new_select_color_box.selectedIndex = 0;
+      new_select_size_box.selectedIndex=0;
+      new_price_box.value=0;
+      new_quantity_box.value=0;
+      new_is_check_box.checked = false
+      new_is_check_box.value=color_size_boxes
+     new_is_sale_input_box.value=0;
+      pairDiv.appendChild(newid_box);
+      
+      //pairDiv.classList.add('size_color_price_id');
+      pairDiv.appendChild(new_select_size_box);
+      pairDiv.appendChild(new_select_color_box);
+      pairDiv.appendChild(new_price_box);
+      pairDiv.appendChild(new_quantity_box);
+      pairDiv.appendChild(new_is_check_box);
+      pairDiv.appendChild(new_is_sale_input_box);
+      container.appendChild(pairDiv);
+      //the code for image field
+      const imageSelect = document.getElementById("product_variant_number");
+      imageSelect.innerHTML = "";
+        for (let i = 1; i <= color_size_boxes; i++) {
+          
+          const option = document.createElement("option");
+          option.value = i;
+          option.text = 'for color_size '+i;
+          imageSelect.appendChild(option);
+        }
+        
+      const total_product_variants=document.getElementById('total_product_variants');
+      total_product_variants.value=color_size_boxes;
+    if(color_size_boxes == 1){
+      document.querySelector('.remove-btn').classList.add('remove-btn-disable');
+      document.querySelector('.remove-btn').classList.remove('remove-btn-active');
+      
+    }
+    else if (color_size_boxes > 1){
+       document.querySelector('.remove-btn').classList.add('remove-btn-active');
+    document.querySelector('.remove-btn').classList.remove('remove-btn-disable');
+      
+    }
+      console.log( color_size_boxes)
+    }
+    function removerPair() 
+    {
+      
+      if (color_size_boxes>1){
+      document.getElementById(color_size_boxes).remove();
+      color_size_boxes=color_size_boxes-1;
+     
+    if(color_size_boxes == 1){
+      document.querySelector('.remove-btn').classList.add('remove-btn-disable');
+      document.querySelector('.remove-btn').classList.remove('remove-btn-active');
+      
+    }
+    else if (color_size_boxes > 1){
+       document.querySelector('.remove-btn').classList.add('remove-btn-active');
+    document.querySelector('.remove-btn').classList.remove('remove-btn-disable');
+      
+    } 
+      }
+      const imageSelect = document.getElementById("product_variant_number");
+      imageSelect.innerHTML = "";
+        for (let i = 1; i <= color_size_boxes; i++) {
+          
+          const option = document.createElement("option");
+          option.value = i;
+          option.text = 'for color_size '+i;
+          imageSelect.appendChild(option);
+        }
+    }
+</script>
+  
+  <script>
+   function addImages() {
+      image_boxes=image_boxes+1;
+      const container = document.getElementById('pairs-image-container');
+      const pairDiv = document.createElement('div');
+      
+      pairDiv.className = 'pair-image-group';
+      pairDiv.id=image_boxes;
+      const image_box=document.getElementById('image_file');
+      const product_variant_number=document.getElementById('product_variant_number');
+      
+      const new_image_box=image_box.cloneNode(true);
+      new_image_box.value=""
+      const new_product_variant_number=product_variant_number.cloneNode(true);
+      new_product_variant_number.selectedIndex = 0;
+      pairDiv.appendChild(new_image_box);
+      pairDiv.appendChild(new_product_variant_number);
+
+      container.appendChild(pairDiv);
+      
+    if(image_boxes == 1000){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1000){
+    document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+    document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    }
+    }
+    function removeImages() 
+    {
+      
+      if (image_boxes>1000){
+      document.getElementById(image_boxes).remove();
+      image_boxes=image_boxes-1;
+     
+    if(image_boxes == 1000){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1000){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    } 
+      }
+    }
+</script>
+<script>
+  
+const parentCategory=document.getElementById('p_ctgry');
+parentCategory.addEventListener('change',(event)=>
+{
+const selectedCategory=event.target.value;
+
+window.location.href=window.location.pathname+`?slectedcategoryId=${selectedCategory}`;
+
+});
+
+</script>
+<script>
+  function is_sale_checkbox_func(){
+    console.log('ok');
+  }
+</script>
+</html>
+{% endblock %}

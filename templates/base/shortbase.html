@@ -1,0 +1,147 @@
+
+<html>
+<head> 
+   <title>Sulli Shopping Center</title>
+   
+   <link rel="shortcut icon" href="/static/img/SSC.png"  type="image/png">
+
+  <link rel="stylesheet" href="/static/css/bootstrap.css">
+<link rel="stylesheet" href="/static/css/home.css">
+  <div class="header">
+      <div class="container-fluid">
+        <div class="row "  style="margin-left: 15px; margin-right: 10px;" >
+            <div class="col-4" id="image-container-toogle">
+              <br>
+              <img src="/static/img/logo1.png" class="active" alt="">
+              <img src="/static/img/logo2.png"  alt="">
+              <img src="/static/img/logo3.png"  alt="">
+              <img src="/static/img/logo4.png"  alt="">
+              <img src="/static/img/logo5.png" alt="">
+              <img src="/static/img/logo6.png"  alt="">
+            </div>
+            <div class="col-6">
+              <br>
+                <form class="search-box" action="{% url 'search' %}" method="post" >
+                   {% csrf_token %}
+                    <input type="text" {% if request.session.search %} value="{{request.session.search}}" {% endif %} name="search" placeholder="Search here..." required>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <div class="col-2">  
+              <br>
+              {% if user.id is not None %} 
+                         {% if request.session.NumberOfCartItems > 0 %}
+                             <a href="{% url 'AtToCard' %}">
+                <div class="cart-container">
+                    <img src="/static/img/cart.png" alt="Cart" class="cart-icon">
+                    <span class="cart-count">{{request.session.NumberOfCartItems}}</span>
+                </div>
+                </a>
+                {% endif %}
+                            {% endif %}
+            </div>
+        </div>
+    </div>
+  </div>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      
+  <nav class="menu">
+    <div class="menu-header">
+      <img src="/static/img/hamburger.png" alt="Menu" id="menu-toggle" class="hamburger">
+    </div>
+    <ul id="menu-list" class="hidden">
+      <li><a href="{% url 'home' %}" id="hover_menus" >Home</a></li>
+         {% if user.is_staff == 1 %}
+
+          <li><a href="{% url 'dashboard'  %}" id="hover_menus">Dashboard {% if perms.order.view_order %} {% if orders %}{% if orders == 0 %}  {% else %}  </a></li><span style=" width: 2vw; height: 2vw; display: inline; border: 2px solid black; background-color: rgb(152, 60, 60); border-radius: 100%; color: white; text-align: center;">{{orders}}</span>{% endif %}{% endif %}{% endif %}
+        {% endif %}
+       {% if user.is_authenticated %}
+      <li><a href="{% url 'add_review' %}" id="hover_menus">My Orders
+        {% if product_reviews_num %}
+        <div class="my_order_status"></div>
+        {% endif %}
+      </a></li>
+      {% endif %}
+      <li><a href="#" id="hover_menus">About</a></li>
+      <li><a href="#" id="hover_menus">Contact</a></li>
+      <li>
+        
+       <div class="button-group">
+        {% if user.id is None %}
+          <a href="{% url 'siginin' %}" class="">
+            <button class="btn btn-login">Login</button>
+          </a>
+          <a href="{% url 'signup' %}" class="">
+            <button class="btn btn-register">Register</button>
+          </a>
+          {% endif %}
+          {% if user.id is not None %} 
+          
+          <a href="{% url 'logout' %}">
+
+          <button class="btn btn-logout">Logout</button>
+          </a>      
+      {% endif %}          
+        </div>
+      </li> 
+      
+    </ul>
+  </nav>
+    </div>
+  </div>
+</div>
+ <script>
+    const images=document.querySelectorAll('#image-container-toogle img');
+    let currentIndex=0;
+    function toggleImages()
+    {
+        images[currentIndex].classList.remove('active');
+        
+
+        currentIndex=(currentIndex+1)%images.length;
+        images[currentIndex].classList.add('active');
+    }
+    setInterval(toggleImages,1000);//2000 means two seconds,2000 meanse two seconds ,100 meanse 1/10 seconds
+    
+</script>
+
+<script>
+  const toggleBtn = document.getElementById("menu-toggle");
+const menuList = document.getElementById("menu-list");
+
+toggleBtn.addEventListener("click", () => {
+  menuList.classList.toggle("hidden");
+});
+</script>
+    {% if messages %}
+    <div>
+        {% include 'base/alert.html' %}
+    </div>
+{% endif %}
+{% block start %}
+{% endblock %}
+ <footer>
+    <h2>Sulli Shopping Center</h2>
+      <div class="footer-links">
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy</a>
+    </div>
+    <div class="footer-social">
+      <a href="#" title="Facebook" style="background-color: blue; border-radius: 50%;">Ⓕ</a>
+      <a href="#" title="Twitter" style="background-color: rgb(0, 179, 255); border-radius: 50%;">🐤</a>
+      <a href="#" title="Instagram" style="background-color: rgb(242, 117, 161); border-radius: 5%;">📸</a>
+
+    </div>
+    <div class="footer-bottom">
+      © 2025 Your Company. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>

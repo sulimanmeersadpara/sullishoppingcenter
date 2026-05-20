@@ -1,0 +1,66 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+
+
+  <style>
+    .order-card{
+      border:1px solid #ccc;
+      padding:15px;
+      border-radius:5px;
+      margin-bottom:15px;
+    }
+    .product-img{
+      width:80px;
+      height:80px;
+      object-fit:cover;
+      border:1px solid #aaa;
+      border-radius:5px;
+    }
+    #products_images_container img{
+        width: 50%;
+        align-items: center;
+    }
+  </style>
+<div class="container bg-white " style="border-radius: 10px;">
+  <div class="row">
+    <div class="col-6"><h2 class="mb-4"><br>Orders List</h2></div>
+    <div class="col-3"><br><a href="{% url 'history' order_obj.id %}"><button class="btn btn-outline-primary">Complete</button></a><br><br></div>
+    {% if order_obj.decrease_stack == 0 %}
+    <div class="col-3"><br><a href="{% url 'decrease_stock' order_obj.id %}"><button class="btn btn-outline-secondary">Decrease Stock</button></a><br><br></div>
+    {% endif %}
+  </div>
+  <div class="order-card">
+    <h5>Order Id: {{order_obj.id}}</h5>
+    <p style="color: #545353;">{{order_obj.user.first_name}}</p>
+    <p style="color: #545353;">{{order_obj.phone_number}}</p>
+    <p style="color: #545353;">{{order_obj.shipping_address}}</p>
+    <p style="color: #545353;">total Rs. {{order_obj.total}}</p>
+    <p style="color: #545353;">Paid Rs. {{order_obj.online_paid}}</p>
+    <p style="color: #545353;">Remaining Rs. {{order_obj.remaining_paid}}</p>
+    <p style="color: #545353;">Deleiver : {{order_obj.delevery_option}}</p>
+    <p style="color: #545353;">Date:{{order_obj.date_ordered}}</p>
+    <p style="color: #545353;">Develvery Code: {{order_obj.DevelveryCode}}</p>
+    <div class="row">
+        {% for item in order_obj.order_order.all %}
+      <div class="col-md-3 col-sm-12" id="products_images_container">
+        <img src="/media/images/{{item.c_product_variant.product_variant.first.image}}" class="img-fluid" />
+        <p class="mt-2">Product 1</p>
+        <p class="mt-2">{{ item.c_product.p_compony }} company {{item.c_product.p_name }} {{item.c_product.p_gender.g_name }} {{ item.c_product_variant.size.size_name }} {{item.c_product_variant.color.color_name}} </p>
+        <p>Quantity:{{item.quantity}} </p>
+        <p>Price:{{item.price}} </p>
+        
+
+        
+      </div>
+    {% endfor %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-8"><b>Note:</b> {{order_obj.notes}} <br><br></div>
+</div>
+</div>
+
+
+
+{% endblock %}

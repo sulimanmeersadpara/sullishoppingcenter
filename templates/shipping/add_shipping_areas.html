@@ -1,0 +1,125 @@
+{% extends 'base/shortbase.html' %} 
+{% block start %}
+<form action="" method="post">
+    {% csrf_token %}
+        <div class="container bg-white" style="border-radius: 10px;">
+            <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4">
+                                <br>
+                                Area Name
+                            </div>
+                            <div class="col-8">
+                               <br> <input type="text" name="area_name" id="" class="form-control">
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-4">
+                                <br>
+                                Postal Code
+                            </div>
+                            <div class="col-8">
+                               <br> <input type="text" name="postal_code" id="" class="form-control">
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-4">
+                                <br>
+                                Base Charge
+                            </div>
+                            <div class="col-8">
+                               <br> <input type="text" name="base_charge" id="" class="form-control">
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-4">
+                                <br>
+                                Additional Items Charges
+                            </div>
+                            <div class="col-8">
+                               <br> <input type="text" name="additional_item_charge" id="" class="form-control">
+                            </div>
+                        </div>
+
+                              <div class="row">
+                            <div class="col-4">
+                                <br>
+                                Max Charges
+                            </div>
+                            <div class="col-8">
+                               <br> <input type="text" name="max_charges" id="" class="form-control">
+                            </div>
+                        </div>
+                        
+
+                              <div class="row">
+                            <div class="col-4">
+                                <br>
+                                Estimated Time
+                            </div>
+                            <div class="col-8">
+                               <br> <input type="text" name="estimated_time" id="" class="form-control">
+                            </div>
+                        </div>
+
+
+                          <div class="row">
+                            <div class="col-4">
+                                <br>
+                                advance payment percentage
+                            </div>
+                            <div class="col-8">
+                               <br> <input type="number" name="advance_payment_percentage" value="0" id="" class="form-control">
+                            {% if errors.payment %}
+                    <p style="color: red;">{{errors.payment}}</p>
+                    {%endif%}
+                            </div>
+                        </div>
+
+                              <div class="row">
+                            <div class="col-4">
+                                <br>
+                                Is Active
+                            </div>
+                            <div class="col-8">
+                               <br>    <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" value="1" name="status" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Is Active</label>
+            </div>
+                            </div>
+                        </div>
+
+                               <div class="row">
+                            <div class="col-4">
+                                <br>
+                                City
+                            </div>
+                            <div class="col-8">
+                               <br> 
+                               <select name="city" class="form-control" id="">
+                                {% for c in cities %}
+                                    <option value="{{c.id}}">{{c.city_name}}</option>
+                                {% endfor  %}
+                               </select>
+                            </div>
+                        </div>
+                        
+
+                               <div class="row">
+                            <div class="col-4">
+                            
+                                
+                            </div>
+                            <div class="col-8">
+                               <br> <button type="submit" class="btn btn-primary">Add shipping Area</button>
+                               <br><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2"></div>
+            </div>
+        </div>
+</form>
+{% endblock %}

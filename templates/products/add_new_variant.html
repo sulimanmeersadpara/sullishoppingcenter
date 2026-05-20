@@ -1,0 +1,246 @@
+   {% extends 'base/shortbase.html' %}
+    {% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/add_products.css">
+<script>let  image_boxes = 1 </script>
+<style>
+    
+    .form-container {
+        background-color: rgb(232, 222, 222);
+    }
+    .select_color_size {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid #6c5ce7;
+      border-radius: 12px;
+      background: white url('data:image/svg+xml;utf8,<svg fill="%236c5ce7" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;/*it is for drop down icon*/
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      
+    }
+
+
+     .select_color_size_price {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid #6c5ce7;
+      border-radius: 12px;
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      margin-top: 20px;
+    }
+    .select_color_size_quantity {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid #6c5ce7;
+      border-radius: 12px;
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+
+    .select_color_size:hover, select:focus {
+      border-color: #4834d4;
+      outline: none;
+      box-shadow: 0 0 8px rgba(108, 92, 231, 0.5);
+    }    
+#image_file{
+    width: 100%;
+}
+</style>
+</head>
+<body>
+  <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+  
+  <div class="container">
+        <div class="row">   
+                <div class="form-container">
+                    
+                    <center><h1 style="color: rgba(51, 41, 41, 0.853); font-family: Arial, Helvetica, sans-serif; font-weight: bold;">write a new {{products.p_child_category}} variant of {{products.p_compony}} compony</h1></center>
+                    <br>
+               <div class="container">
+                <div class="row">
+                    <div class="col-3">size</div>
+                    <div class="col-9">
+                               <select id="sizes" class="select_color_size" name="product_sizes" >
+                                    {% for s in sizes %}
+                                    {% if s.id is selected_size %}
+                                    <option value="{{s.id}}" selected>{{s.size_name}}</option>
+                                    {% else %}
+                                    <option value="{{s.id}}">{{s.size_name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                                
+                                </select>
+                                {% if error.sizes %}
+                             <p style="color: red;">{{error.sizes}}</p>
+                    {%endif%}
+                    </div>
+                    <div class="col-3">color</div>
+                    <div class="col-9">
+                        <select id="colors" name="product_colors" class="select_color_size">
+                            {% for c in colors %}
+                            {% if c.id is selected_color %}
+                            <option value="{{c.id}}" selected>{{c.color_name}}</option>
+                            {% else %}
+                            <option value="{{c.id}}">{{c.color_name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                        {% if error.colors %}
+                                <p style="color: red;">{{error.colors}}</p>
+                        {%endif%}
+                     </div>
+                     <div class="col-3">original price</div>
+                     <div class="col-9">
+                         <input type="number" class="select_color_size_price " value="{{price}}" name="product_price" id="price" placeholder="enter price of the product">
+                     {% if error.price %}
+                    
+                    <p style="color: red;">{{error.price}}</p>
+                    
+                    {%endif%}
+                        </div>
+                     <div class="col-3">quantity</div>
+                     <div class="col-9">
+                         <input type="number" class="select_color_size_quantity " value="{{quantity}}" name="product_quantity" id="quantity" placeholder="enter quantity of this product">
+                        {% if error.quantity %}
+            
+                            <p style="color: red;">{{error.quantity}}</p>
+                            
+                            {%endif%}
+                        </div>
+                     <div class="col-3">is sale</div>
+                     <div class="col-9">
+                        <br>
+                        {% if p_is_sale %}
+                          <input type="checkbox" name="is_sale_checkbox" checked class="form-check-input" onchange="is_sale_checkbox_func()" id="is_sale">
+                        {% else %}
+                    <input type="checkbox" name="is_sale_checkbox" class="form-check-input" onchange="is_sale_checkbox_func()" id="is_sale">
+                       
+                        {% endif %}
+                        </div>
+                     <div class="col-3">sale price</div>
+                     <div class="col-9">
+                     <input type="number" class="select_color_size_price " name="product_sale_price" id="sale_price" value="{{sale_price}}" placeholder="enter sale price of the product">
+                    {% if error.sale_price %}
+                            <p style="color: red;">{{error.sale_price}}</p>
+                            {%endif%} 
+                    </div>
+                    <div class="col-3">images</div>
+<div class="col-9">
+    <div class="form-container">
+    <h2 id="image_heading">Images</h2>
+    <button class="remove-image-btn remove-image-btn-disable" type="button" onclick="removeImages()">-</button>
+    <button class="add-image-btn" type="button" onclick="addImages()">+</button>
+    <div id="pairs-image-container">
+        
+  <div class=" pair-image-group" id="1">
+  
+    <input type="file" id="image_file" name="image" >
+  
+     
+  </div>  
+  </div>
+    </div>
+     {% if error.image %}
+            
+                <p style="color: red;">{{error.image}}</p>
+            
+            {%endif%}
+            {% if error.images_empty %}
+            
+            <p style="color: red;">{{error.images_empty }}</p>
+        
+        {%endif%}
+  </div>
+                </div>
+               </div>
+              
+          
+         
+   
+  
+  
+   
+       
+   
+        <br>
+  
+    </div>
+  <div class="col-3"></div>
+  <div class="col-9 mt-3"><button type="submit" class="btn btn-primary" style="width: 100%;">Add Variant</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<br><br>
+</body>
+</html>
+<script>
+   function addImages() {
+      image_boxes=image_boxes+1;
+      const container = document.getElementById('pairs-image-container');
+      const pairDiv = document.createElement('div');
+      
+      pairDiv.className = 'pair-image-group';
+      pairDiv.id=image_boxes;
+      const image_box=document.getElementById('image_file');
+     
+      const new_image_box=image_box.cloneNode(true);
+      new_image_box.value=""
+    
+      pairDiv.appendChild(new_image_box);
+
+      container.appendChild(pairDiv);
+      
+    if(image_boxes == 1){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1){
+    document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+    document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    }
+    }
+    function removeImages() 
+    {
+      
+      if (image_boxes>1){
+      document.getElementById(image_boxes).remove();
+      image_boxes=image_boxes-1;
+     
+    if(image_boxes == 1){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    } 
+      }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,249 @@
+   {% extends 'base/shortbase.html' %}
+    {% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+     <style>
+        .form-container {
+      max-width: 100%;
+      margin-top: 20px;
+      border: 2px solid #6c5ce7;
+      padding-top: 50px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-radius: 8px;
+      position: relative;
+    }
+    .pair-image-group {
+      display: block;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .add-image-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 20px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .remove-image-btn {
+      position: absolute;
+      right: 60px;
+      top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 20px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .add-image-btn:hover {
+      background-color: #218838;
+    }
+    .remove-image-btn:hover {
+      background-color: #218838;
+    }
+    .remove-image-btn-disable{
+      display: none;
+    }
+    .remove-image-btn-active{
+      display: block;
+    }
+  
+
+    #image_file {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #555;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #image_file::file-selector-button {
+      padding: 10px 16px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    #image_file::file-selector-button:hover {
+      background-color: #0056b3;
+    }
+
+    #image_file:hover {
+      border-color: #007BFF;
+    }
+    
+    </style>
+    
+
+    <script>
+        
+        image_boxes=1;
+    
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+
+                <center>
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">picture id</th>
+                            <th scope="col">picture</th>
+                            
+                            <th scope="col">
+                               {% if perms.products.delete_product  %} 
+                               delete
+                                {% endif %}
+                              </th>
+                           
+                          </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {% for images in products.product_variant.all %}
+                          <tr>
+                            <td>{{images.i_id}}</td>
+                            <td> 
+                                <img src="/media/images/{{images.image}}" style=" width: 100px;" alt="" class="home__img">
+                            </td>
+                            <td>
+                               {% if perms.products.delete_product  %} 
+                                <a href="{% url 'delete_images' images.i_id %}">
+                                <button class=" btn btn-outline-danger">delete</button>
+                                </a>
+                            {% endif %}
+                            </td>
+                
+                          </tr>
+                        </tbody>
+                        
+                        {% endfor %}
+                      </table>
+                    </center>
+            </div>
+            
+            <div class="col-md-6 col-sm-12">
+                <br>
+                <br>
+                <center>
+                    {% if perms.products.add_product  %} 
+                    <form action="" method="post" enctype="multipart/form-data">
+                        
+                {% csrf_token %}
+                    <div  id="add_image">
+                        
+                    <input type="hidden" name="slug" value="{{products.slug}}">
+                    
+                      
+                        <div class="form-container">
+                                <button class="remove-image-btn remove-image-btn-disable" type="button" onclick="removeImages()">-</button>
+                                <button class="add-image-btn" type="button" onclick="addImages()">+</button>
+                                <div id="pairs-image-container">
+                                    
+                            <div class=" pair-image-group" id="1">
+                            
+                                <input type="file" id="image_file" name="image" >
+                           
+                                
+                            </div>  
+                            </div>
+                                </div>
+                             
+                          <br>
+                    {% if error.image %}
+                
+                    <p style="color: red;">{{error.image}}</p>
+                
+                {%endif%}
+                </div>
+                <br>
+                <button type="submit" class=" btn btn-outline-success">upload images</button>
+                
+            </form>
+          
+               {% endif %}
+               
+            </div>
+        </div>
+    </div>
+ <script>
+   function addImages() {
+      image_boxes=image_boxes+1;
+      const container = document.getElementById('pairs-image-container');
+      const pairDiv = document.createElement('div');
+      
+      pairDiv.className = 'pair-image-group';
+      pairDiv.id=image_boxes;
+      const image_box=document.getElementById('image_file');
+    
+      const new_image_box=image_box.cloneNode(true);
+      new_image_box.value=""
+      pairDiv.appendChild(new_image_box);
+
+      container.appendChild(pairDiv);
+      
+    if(image_boxes == 1){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1){
+    document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+    document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    }
+    }
+    function removeImages() 
+    {
+      
+      if (image_boxes>1){
+      document.getElementById(image_boxes).remove();
+      image_boxes=image_boxes-1;
+     
+    if(image_boxes == 1){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-disable');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-active');
+      
+    }
+    else if (image_boxes > 1){
+      document.querySelector('.remove-image-btn').classList.add('remove-image-btn-active');
+      document.querySelector('.remove-image-btn').classList.remove('remove-image-btn-disable');
+      
+    } 
+      }
+    }
+</script>
+                                
+    {% endblock %}
+
+    </body>
+    </html>

@@ -1,0 +1,73 @@
+<html>
+<head>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <title>Sulli.com</title>
+    <style>
+        
+    .input-container input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 2px #ccc;
+      transition: 0.3s ease;
+      font-size: 16px;
+      outline: none;
+      margin-top: 10px;
+    }
+
+    .input-container input:focus {
+      box-shadow: 0 0 0 2px #6c63ff;
+      border-color: #6c63ff;
+    }
+
+    .input-container input::placeholder {
+      color: #aaa;
+      transition: 0.2s;
+    }
+
+    .input-container input:focus::placeholder {
+      opacity: 0.6;
+    }
+    
+
+
+    input:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.3);
+    }
+
+    .heading{
+        font-size: 30px;
+        font-weight: bold;
+        padding: 10px 0px 10px 0px ;
+    }
+  
+    </style>
+</head>
+<body>
+   <form action="" method="post">
+              {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <div class="col0-12">
+                <center><div class="heading">Admin Authentication</div></center>
+                <p>We have sent 6 digit code to your email.now input that codes in following box</p>
+            </div>
+            <div class="col-2 mt-2">6 code digit</div>
+            <div class="col-8">  
+                <div class="input-container">
+                  <input type="hidden" value="{{email}}" name="email">
+                <input type="number" name="otp_code" placeholder="Enter your 6 digit code which is sent in your gmail">
+                 </div>
+           </div> 
+          <div class="col-sm-6"></div>
+          <div class="col-sm-2"><button class="btn btn-outline-primary mt-2" style="width: 100%;">Verify</button></div>
+           
+        </div>
+    </div>
+    </form>
+</body>
+</html>

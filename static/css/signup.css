@@ -1,0 +1,145 @@
+
+    .signup_box {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 40px 35px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .signup_logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .signup_logo img {
+      width: 280px;
+    }
+
+    .signup_title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .signup_input_label {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .signup_input_box {
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 100%;
+      transition: border-color 0.3s ease;
+    }
+
+    .signup_input_box:focus {
+      border-color: #e47911;
+      outline: none;
+    }
+
+    .signup_button {
+      background-color: #f0c14b;
+      border: 1px solid #a88734;
+      border-radius: 6px;
+      padding: 10px;
+      width: 100%;
+      font-weight: 600;
+      margin-top: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .signup_button:hover {
+      background-color: #ddb347;
+    }
+
+    .signup_footer_text {
+      
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .signup_footer_text a {
+      color: #0066c0;
+      text-decoration: none;
+    }
+
+    .signup_footer_text a:hover {
+      text-decoration: underline;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+            .forgot-password {
+            font-size: 12px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .forgot-password a {
+            color: #0073bb;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+      .google_btn-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    
+                }
+            
+                .google-btn {
+                    width: 17vw;
+                    border: 2px solid rgb(66, 64, 64);
+                    border-radius: 40px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    color: rgb(65, 63, 63);
+                    font-size: 1vw;
+                    height: 4vw;
+                    display: inline-flex;
+                    align-items: center; /* vertically centers image + text */
+                    margin-top: 15px;
+                
+                }
+               .google-btn:hover{
+                color: white;
+                background-color: black;
+               }
+                .btn-social img {
+                    width: 50px;
+                    height: 50px;
+                }

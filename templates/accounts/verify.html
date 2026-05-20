@@ -1,0 +1,162 @@
+
+  {% extends 'base/shortbase.html' %} 
+
+   {% block start %}
+   <!DOCTYPE html>
+<html lang="en">
+    <br>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <style>
+    
+        .signin-container {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px 30px;
+            width: 70%;
+        
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            display: block;
+            
+        }
+
+        .signin-container h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .signin-container form {
+            display: block;
+            
+        }
+
+        .signin-container label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .signin-container input {
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 80%;
+        }
+
+        .signin-container button {
+            background-color: #ff9900;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        .signin-container button:hover {
+            background-color: #e68a00;
+        }
+
+        .signin-container .forgot-password {
+            font-size: 12px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .signin-container .forgot-password a {
+            color: #0073bb;
+            text-decoration: none;
+        }
+
+        .signin-container .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .signin-container .signup-link {
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .signin-container .signup-link a {
+            color: #0073bb;
+            text-decoration: none;
+        }
+
+        .signin-container .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+   
+
+   
+      <div class="container">
+        <div class="row">
+            <div class="col-12">
+            
+
+                
+    <div class="signin-container">
+        <h1>Verify Code</h1>
+
+        <form action="{% url 'verify' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{email}}" name="email">
+            <label for="email">Email</label>
+            <br>
+            <input type="text" id="email" name="code" placeholder="Enter your code" required>
+<br>      
+            <button type="submit" class="signup-btn">verify</button>
+
+        </form>
+        <p style="font-size: 12px; font-weight: bold; color: #5e5656;">we have sent a code in {{email}}, so verify it </p>
+        <center>
+            <style>
+                .btn-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+            
+                .google-btn {
+                    width: 80%;
+                    background-color: #DB4437;
+                }
+                .github-btn {
+                    width: 80%;
+                    background-color: #333;
+                }
+                .btn img {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                }
+            </style>
+        </head>
+        <body>
+       
+        
+        </body>
+        </center>
+        
+    </div>
+                
+            </div>
+            </div>
+
+    
+      </div>    
+  
+
+</body>
+</html>
+{% endblock %}

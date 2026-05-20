@@ -1,0 +1,159 @@
+ {% extends 'base/shortbase.html' %} 
+
+   {% block start %}
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+</head>
+<body>
+         
+    <div class="container bg-white">
+
+        <!-- Main Content -->
+        <div class="row">
+            <div class="col-4">
+                 {% if perms.accounts.add_user %}
+                    <a href="{% url 'add_employee' %}" style="text-decoration: none;">
+                    <button class="btn btn-outline-primary" style="margin-top: 10px; display: block; " >
+                         Add New Employees
+                    </button><br>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+                
+                </div>
+            
+
+            <div class="container bg-white">
+                <h1>Product List </h1>
+                <div class="row">
+                    <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Employee Parent</th>
+                                <th>Employee Email</th>
+                                <th>Gender</th>
+                                <th>job title</th>
+                                <th>Is SuperUser</th>
+                                <th>Is Active</th>
+                                <th>Joined Date</th>
+                                <th>CNIC</th>
+                                <th>Salary</th>
+                                <th>Address</th>
+                                <th>Nationality</th>
+                                <th>Profile Image</th>
+                                <th>Phone Number</th>
+                                <th>DOB</th>
+                                  {% if perms.accounts.change_user %}
+                                <th>Update</th>
+                                {% endif %}
+                                {% if perms.accounts.delete_user %}
+                                <th>Delete</th>
+                                {% endif %}
+                              
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {% for emp in emp_data %}
+                                <tr>
+                               <td>  {{emp.first_name}}</td>
+                               <td>  {{emp.parent}}</td>
+                                <td> {{emp.email}}</td>
+                                <td>{{emp.gender_id.g_name}}</td>
+                                <td>{{emp.job_title}}</td>
+                                <td>       
+                                    {% if emp.is_superuser == 1 %}
+                                    <p style="color: green; font-weight: bold;">yes</p>
+                                    {% else %}
+                                    <p style="color: rgb(128, 0, 0); font-weight: bold;">no</p>
+                                    {% endif %}
+                                </td>
+                                <td> 
+                                    {% if emp.is_active == 1 %}
+                                    <p style="color: green; font-weight: bold;">yes</p>
+                                   
+                                    {% else %}
+                                    <p style="color: rgb(128, 0, 0); font-weight: bold;">no</p>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{emp.date_joined}}
+                                </td>
+                                <td>
+                                    {{emp.CNIC}}
+                                </td>
+                                
+                                <td>{{emp.salary}}</td>
+                                <td>{{emp.address}}</td>
+                                <td>{{emp.Nationality}}</td>
+                                <td><img  src="/media/images/{{emp.profile_image}}" style="width: 100%;" alt=""></td>
+                                <td>{{emp.phone}}</td>
+                                <td>{{emp.DOB}}</td>
+                                 <td>
+                                    {% if perms.accounts.change_user %}
+                                    <a href="{% url 'update_employee' emp.id  %}">
+                                        <button class="btn btn-outline-primary">Update</button>
+                                        </a>
+                                        {% endif %}
+                            </td>
+                                <td>
+                                    {% if perms.accounts.delete_user %}
+                                    <a href="{% url 'delete_employee' emp.id %}">
+                                    <button class="btn btn-outline-warning">Delete</button></a>
+                                    {% endif %}
+                                </td>
+                                </tr>
+                                  {% endfor %}
+                        </tbody>
+                        
+                    </table>
+                    </div>
+                </div>
+
+             
+            </div>
+        </main>
+    </div>
+
+
+
+    
+        <script>
+const parentCategory=document.getElementById('p_ctgry');
+parentCategory.addEventListener('change',(event)=>
+{
+const selectedCategory=event.target.value;
+
+window.location.href=window.location.pathname+`?slectedPcategoryId=${selectedCategory}`;
+
+});
+const childCategory=document.getElementById('c_ctgry');
+childCategory.addEventListener('change',(event)=>
+{
+const selectedCategory=event.target.value;
+
+const childCategory=document.getElementById('p_ctgry');
+value=childCategory.value;
+console.log(value)
+window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`+`&slectedPcategoryId=${value}`;
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`;
+
+});
+
+
+    </script>
+
+
+    
+</body>
+</html>
+{% endblock %}

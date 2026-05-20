@@ -1,0 +1,118 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+<div class="container-fluid" style=" width: 97%;">
+    <div class="row bg-white">
+        <div class="col-6" style="border: 2px solid black;">
+            <h3 style="font-weight: bold; font-family: Arial; color: rgb(95, 85, 85);"><center>Parent Categories</center></h3>
+            {% if perms.categories.add_parent_category %}  
+            <form action="{% url 'addparentcategory' %}" method="post">
+                {% csrf_token %}
+            <div class="row"> 
+                <div class="col-4"><br>Parent Category Name</div>
+                <div class="col-8"><br><input type="text" name="p_category" id="" class="form-control"></div>
+                <div class="col-4"></div>
+                <div class="col-8"><br><button type="submit" class="btn btn-primary">add Parent Category</button><br></div>
+            </div>
+            </form>
+            {% endif %}
+            <hr><hr>
+             {% if perms.categories.view_parent_category %} 
+                 
+            <div class="row">
+                <div class="col-4 bg-secondary text-white">category name</div>
+                
+                <div class="col-4 bg-secondary text-white">
+                    {% if perms.categories.delete_parent_category %} 
+                    delete
+                {% endif  %} 
+                </div>
+                <div class="col-4 bg-secondary text-white">
+                    {% if perms.categories.change_parent_category %} 
+                    update
+                    {% endif %}
+                </div>
+                {% for p in p_categories %}
+
+                <div class="col-4" style="border: 2px solid rgba(0, 0, 0, 0.573);">{{p.p_c_name}}</div>
+                <div class="col-4" style="border: 2px solid rgba(0, 0, 0, 0.573);">
+                    {% if perms.categories.delete_parent_category %} 
+                    <br><a href="{% url 'delete_parent_category' p.p_c_id %}" style="text-decoration: none;">
+                       
+                        <button class="btn btn-outline-warning" style="border: 2px solid rgb(250, 188, 112); color: black;">delete</button></a><br>
+                        {% endif %}
+                </div>
+                <div class="col-4" style="border: 2px solid rgba(0, 0, 0, 0.573);">
+                     {% if perms.categories.change_parent_category %} 
+                     <br><a href="{% url 'update_parent_category' p.p_c_id %}" style="text-decoration: none;"><button class="btn btn-outline-success" style="border: 2px solid rgb(56, 135, 90); color: black;">update</button></a><br>
+                {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-6" style="border: 2px solid black;">
+                <h3  style="font-weight: bold; font-family: Arial; color: rgb(95, 85, 85);"><center>Child Categories</center></h3>
+                 {% if perms.categories.add_child_category %} 
+                 
+                <form action="{% url 'addchildcategory' %}" method="post">
+                    {% csrf_token %}
+                <div class="row">
+                
+                <div class="col-4"><br>Child Category Name</div>
+                <div class="col-8"><br><input type="text" name="c_category" id="" class="form-control"></div>
+                <div class="col-4"><br>parent category</div>
+                <div class="col-8">
+                    <br><select name="parent_category" class="form-control" id="">
+                        {% for p in p_categories %}
+                        <option value="{{p.p_c_id}}">{{p.p_c_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-4"></div>
+                <div class="col-8"><br><button type="submit" class="btn btn-primary">add Child Category</button><br></div>
+            </div>
+            </form>
+            {% endif %}
+            <hr><hr>  
+             {% if perms.categories.view_child_category %} 
+                  
+              <div class="row">
+                <div class="col-3 bg-secondary text-white">category name</div>
+                <div class="col-3 bg-secondary text-white">parent category</div>
+                 
+                <div class="col-3 bg-secondary text-white">
+                    {% if perms.categories.delete_child_category %} 
+                    delete
+                    {% endif %}
+                </div>
+                <div class="col-3 bg-secondary text-white">
+                    {% if perms.categories.change_child_category %} 
+                    update
+                    {% endif %}
+                </div>
+                   
+                      {% for c in c_categories %}
+
+                <div class="col-3" style="border: 2px solid rgba(0, 0, 0, 0.573);">{{c.c_c_name}}</div>
+                <div class="col-3" style="border: 2px solid rgba(0, 0, 0, 0.573);">{{c.p_category.p_c_name}}</div>
+                <div class="col-3" style="border: 2px solid rgba(0, 0, 0, 0.573);">
+                     {% if perms.categories.delete_child_category %} 
+                        
+                    <br><a href="{% url 'delete_child_category' c.c_c_id %}" style="text-decoration: none;">
+                       <button class="btn btn-outline-warning" style="border: 2px solid rgb(250, 188, 112); color: black;">delete</button></a><br>
+                        {% endif %}
+                </div>
+                <div class="col-3" style="border: 2px solid rgba(0, 0, 0, 0.573);">
+                    {% if perms.categories.change_child_category %} 
+                    <br><a href="{% url 'update_child_category' c.c_c_id %}" style="text-decoration: none;"><button class="btn btn-outline-success" style="border: 2px solid rgb(56, 135, 90); color: black;">update</button></a><br>
+                    {% endif %}
+                </div>
+                {% endfor %}
+              
+            </div>
+         </div>
+         {% endif %}
+    </div>
+</div>
+
+{% endblock %}

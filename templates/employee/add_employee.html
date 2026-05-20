@@ -1,0 +1,96 @@
+
+{% extends 'base/shortbase.html' %}
+{% block start %}
+<link rel="stylesheet" href="/static/css/admin.css">
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="container mt-5 bg-white">
+    <div class="row">
+        <div class="col-md-2 col-sm-4 mt-5">Empolyee Name</div>
+        <div class="col-md-4 col-sm-8 mt-5"><input type="text" placeholder="please enter employee name" {% if values.emp_name %} value="{{values.emp_name}}" {% endif %}  name="emp_name" id="" class="form-control">
+        {% if errors.emp_name %}<p style="color: rgb(136, 16, 16);">{{errors.emp_name}}</p>{% endif %}
+        </div>
+        <div class="col-md-2 col-sm-4 mt-5">Empolyee  Parent Name</div>
+        <div class="col-md-4 col-sm-8 mt-5"><input type="text" name="emp_fname" {% if values.emp_fname %} value="{{values.emp_fname}}" {% endif %} placeholder="please enter any parent name of employee" id="" class="form-control">
+         {% if errors.emp_fname %}<p style="color: rgb(136, 16, 16);">{{errors.emp_fname}}</p>{% endif %}
+        </div>
+        <div class="col-md-2 col-sm-4 mt-5">Empolyee  Password</div>
+        <div class="col-md-4 col-sm-8 mt-5"><input type="password" name="emp_password" placeholder="please enter employee password" id="" class="form-control">
+         {% if errors.emp_password %}<p style="color: rgb(136, 16, 16);">{{errors.emp_password}}</p>{% endif %}
+        </div> 
+        <div class="col-md-2 col-sm-4 mt-5">Empolyee confirm Password</div>
+        <div class="col-md-4 col-sm-8 mt-5"><input type="password" name="emp_confirm_password" placeholder="please enter employee password" id="" class="form-control">
+         {% if errors.emp_confirm_password %}<p style="color: rgb(136, 16, 16);">{{errors.emp_confirm_password}}</p>{% endif %}
+        </div>
+        <div class="col-md-2 col-sm-4 mt-3">Empolyee CNIC</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="text" name="emp_CNIC" {% if values.emp_CNIC %} value="{{values.emp_CNIC}}" {% endif %}  id="" placeholder="please enter employee CNIC" class="form-control">
+         {% if errors.emp_CNIC %}<p style="color: rgb(136, 16, 16);">{{errors.emp_CNIC}}</p>{% endif %}
+        </div>
+        <div class="col-md-2 col-sm-4 mt-3">Empolyee email</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="email" name="emp_email" {% if values.emp_email %} value="{{values.emp_email}}" {% endif %}   placeholder="please enter employee email" id="" class="form-control">
+         {% if errors.emp_email %}<p style="color: rgb(136, 16, 16);">{{errors.emp_email}}</p>{% endif %}
+         
+        </div>
+        <div class="col-md-2 col-sm-4 mt-3">Empolyee Phone Number</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="number" name="emp_phone" {% if values.emp_phone %} value="{{values.emp_phone}}" {% endif %}  placeholder="please enter employee phone number" id="" class="form-control"></div>
+        <div class="col-md-2 col-sm-4 mt-3">Employee Gender</div>
+        <div class="col-md-4 col-sm-8 mt-3">
+            {% for gender in genders %}
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="radio1" value="{{gender.g_id}}" checked>
+                    <label class="form-check-label" for="radio1">
+                        {{gender.g_name}}
+                    </label>
+                    </div>
+            {% endfor %}
+                  
+</div>
+        <div class="col-md-2 col-sm-4 mt-3">Empolyee DOB</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="date" {% if values.emp_DOB %} value="{{values.emp_DOB}}" {% endif %}   name="emp_DOB" id="" placeholder="please enter employee Date Of Birth" class="form-control"></div>
+        <div class="col-md-2 col-sm-4 mt-3">Job Title</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="text" {% if values.emp_job %} value="{{values.emp_job}}" {% endif %}   name="emp_job" id="" placeholder="please enter employee job title" class="form-control">
+         {% if errors.emp_job %}<p style="color: rgb(136, 16, 16);">{{errors.emp_job}}</p>{% endif %}
+        </div>
+        <div class="col-md-2 col-sm-4 mt-3">Hiring Date</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="date" {% if values.emp_hiring_date %} value="{{values.emp_hiring_date}}" {% endif %}   name="emp_hiring_date" placeholder="please enter employee hiring date" id="" class="form-control"></div>
+        <div class="col-md-2 col-sm-4 mt-3">Salary</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="number" {% if values.emp_salary %} value="{{values.emp_salary}}" {% endif %}   name="emp_salary" placeholder="please enter employee Salary" id="" class="form-control"></div>
+        <div class="col-md-2 col-sm-4 mt-3">is active</div>
+        <div class="col-md-4 col-sm-8 mt-3">
+            <div class="form-check form-switch">
+            <input class="form-check-input" {% if values.status %} {% if values.status == 1 %} checked {% endif %} {% endif %} type="checkbox" role="switch" value="1" name="status" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Is Active</label>
+            </div>
+        </div>        
+        <div class="col-md-2 col-sm-4 mt-3">Address</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="text" {% if values.emp_address %} value="{{values.emp_address}}" {% endif %}   placeholder="please enter employee current living address" name="emp_address"  id="" class="form-control">
+        {% if errors.emp_address %}<p style="color: rgb(136, 16, 16);">{{errors.emp_address}}</p>{% endif %}
+        </div>
+        <div class="col-md-2 col-sm-4 mt-3">Nationality</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="text" name="emp_nationality" {% if values.emp_nationality %} value="{{values.emp_nationality}}" {% endif %}   placeholder="please enter employee Nationality" id="" class="form-control">
+        {% if errors.emp_nationality %}<p style="color: rgb(136, 16, 16);">{{errors.emp_nationality}}</p>{% endif %}
+        </div>
+        <div class="col-md-2 col-sm-4 mt-3">Bank Account</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="text" placeholder="please enter employee bank Account"  {% if values.emp_bank %} value="{{values.emp_bank}}" {% endif %}   name="emp_bank" id="" class="form-control">
+        {% if errors.emp_bank %}<p style="color: rgb(136, 16, 16);">{{errors.emp_bank}}</p>{% endif %}
+        </div>
+        
+        <div class="col-md-2 col-sm-4 mt-3">Employee Image</div>
+        <div class="col-md-4 col-sm-8 mt-3"><input type="file" {% if values.emp_image %} value="{{values.emp_image}}" {% endif %} name="emp_image" id="" class="form-control">
+        
+        {% if errors.emp_image %}<p style="color: rgb(136, 16, 16);">{{errors.emp_image}}</p>{% endif %}
+        </div>
+          <div class="col-md-2 col-sm-4 mt-3"></div>
+        <div class="col-md-4 col-sm-8 mt-3"><button type="submit" id="" style="border: 3px solid rgba(18, 146, 18, 0.569); color: rgb(80, 74, 74);"  class="btn btn-outline-success">add employee</button>
+    </div>
+      
+    </div>
+    <br>
+</div>
+</form>
+{% endblock %}
+<style>
+    *{
+        background-color: #00000000;
+    }
+</style>

@@ -1,0 +1,134 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+  <style>
+    .header 
+    {
+      text-align: center;
+    }
+    .header h2 {
+      font-weight: bold;
+      color: #333;
+    }
+    .table-container {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    .table-container:hover {
+      transform: translateY(-5px);
+    }
+
+    .table thead {
+      background-color: #e9ecef;
+    }
+
+    .table th {
+      text-transform: uppercase;
+      font-size: 1vw;
+      color: #555;
+      border-right: 0.15vw solid rgb(50, 48, 48);
+      
+    }
+
+    .table td {
+      vertical-align: middle;
+      font-size: 1vw;
+      border-right: 0.15vw solid rgb(50, 48, 48);
+        }
+
+
+
+    .status-paid {
+      background-color: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-cancelled {
+      background-color: #f8d7da;
+      color: #842029;
+    }
+    .status-shipped {
+      background-color: #cfe2ff;
+      color: #084298;
+    }
+
+    .btn-action {
+      border-radius: 10px;
+      font-size: 1vw;
+      font-weight: bold;
+      padding: 0.5vw 1vw;
+     
+    }
+
+  </style>
+  <div class="container" style="background-color: #f3f6fa; border-radius: 5px;">
+    <div class="row">
+      <div class="col-12 header">
+        <h2>🛒 Orders List</h2>
+        <p class="text-muted">View and manage all recent customer orders</p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-md-12">
+        <div class="table-container">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Customer</th>
+                <th>Shipping Address</th>
+                <th>Phone Number</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Delever</th>
+                <th>Delvery Code</th>
+                <th>View</th>
+                <th>Delevering</th>
+                <th>Complete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for o in total_uncomplete_orders %}
+              <tr>
+                <td>{{o.id}}</td>
+                <td>{{o.user.first_name}}</td>
+                <td>{{o.shipping_address}}</td>
+                <td>{{o.phone_number}}</td>
+                <td>{{o.date_ordered|date:"Y-m-d" }}</td>
+                <td>Rs {{o.total}}</td>
+                <td>{{o.delevery_option}}</td>
+                <td>{{o.DevelveryCode}}</td>
+                <td>
+                  {% if o.admin_read_status == 0%}
+                  <div style="background-color: rgb(10, 118, 10); width: 10px; height: 10px; margin-left: 3vw; border-radius: 50%;"></div>
+                  {% endif %}
+                 <a href="{% url 'view_order' o.id %}"> <button class="btn btn-outline-primary btn-sm btn-action">View</button></a>
+                </td>
+                  <td>
+                  <button class="btn btn-outline-secondary btn-sm btn-action">delevering</button>
+                  </td>
+                  <td>
+                  <a href="{% url 'history' o.id %}"><button class="btn btn-outline-success btn-sm btn-action">complete</button></a>
+                  
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      <br>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+{% endblock %}

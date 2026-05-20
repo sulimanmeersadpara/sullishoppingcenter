@@ -1,0 +1,342 @@
+    .admin-container {
+        display: flex;
+        min-height: 100vh;
+    }
+    
+
+    /*-------------------------------------------------select box-------------------------------------*/
+    
+    .custom-select {
+      position: relative;
+      width: 100%;
+      font-size: 1vw;
+    }
+
+    select {
+      
+      appearance: none;
+      width: 90%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid rgb(1, 1, 112);
+      border-radius: 12px;
+      background-size: 20px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+   
+    /*-----------------input type text--------------------------*/
+    
+    .input-container {
+      position: relative;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .input-container input {
+      width: 90%;
+      padding: 12px 16px;
+      border: 2px solid rgb(1, 1, 112);
+      border-radius: 8px;
+      background-color: #ffffff;
+      transition: 0.3s ease;
+      font-size: 1vw;
+      outline: none;
+    }
+
+
+
+   /*-------------------------------------------------gender-------------------------------------------------------*/
+   .radio-container {
+  display: inline;
+  position: relative;
+  padding-left: 30px;
+  top:10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;/*due to this the original radio box is hiding*/
+  cursor: pointer;
+}
+
+.custom-radio /*this custom radio is a span which is creating a virtual radio box*/{
+  position: absolute;
+  top: 0px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  border: 2px solid #ccc;
+}
+
+.radio-container:hover .custom-radio {
+  background-color: #ddd;
+}
+
+.radio-container input:checked ~ .custom-radio {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.custom-radio:after {
+  content: "";
+  position: absolute;
+  display: none;/*due to this the hole is hiding*/
+}
+
+.radio-container input:checked ~ .custom-radio:after {
+  display: block;/*due to this the hole is showing*/
+}
+
+.radio-container .custom-radio:after {
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+/*------------------------------------------------textarea----------------------------*/
+
+.input-container textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid rgb(1, 1, 112);
+      border-radius: 8px;
+      background-color: #ffffff;
+      transition: 0.3s ease;
+      font-size: 16px;
+      outline: none;
+      margin-top: 20px;
+      height: 100px;
+    }
+
+    .input-container textarea:focus {
+      box-shadow: 0 0 0 2px rgb(1, 1, 112);
+    }
+/*------------------size color price---------------------------------------*/
+    .form-container {
+      max-width: 100%;
+      margin-top: 20px;
+      border: 2px solid rgb(1, 1, 112);
+      padding-top: 50px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .pair-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .custom-select {
+      position: relative;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .select_color_size {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 20%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid rgb(1, 1, 112);
+      border-radius: 12px;
+      background: white url('data:image/svg+xml;utf8,<svg fill="%236c5ce7" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;/*it is for drop down icon*/
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+
+
+     .select_color_size_price {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 20%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid rgb(1, 1, 112);
+      border-radius: 12px;
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+    .select_color_size_quantity {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 20%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid rgb(1, 1, 112);
+      border-radius: 12px;
+      background-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+
+
+    .select_color_size:hover, select:focus {
+      border-color: #4834d4;
+      outline: none;
+      box-shadow: 0 0 8px rgba(108, 92, 231, 0.5);
+    }    
+    .add-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 20px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .remove-btn {
+      position: absolute;
+      right: 60px;
+      top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 20px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      background-color: #218838;
+    }
+    .remove-btn:hover {
+      background-color: #218838;
+    }
+    .remove-btn-disable{
+      display: none;
+    }
+    .remove-btn-active{
+      display: block;
+    }
+    h2 {
+      text-align: center;
+    }
+    .size_color_price_id{
+      border: 2px solid rgb(1, 1, 112);
+      border-radius: 12px;
+      height: 40px;
+      width: 30px;
+      margin-top: 15px;
+      padding: 0 10px 0 10px;
+    }
+  
+/*------------------------------------------------image field----------------------------*/
+
+    .form-image-container {
+      max-width: 100%;
+      margin: auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .pair-image-group {
+      display: block;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .add-image-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 20px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .remove-image-btn {
+      position: absolute;
+      right: 60px;
+      top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 20px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .add-image-btn:hover {
+      background-color: #218838;
+    }
+    .remove-image-btn:hover {
+      background-color: #218838;
+    }
+    .remove-image-btn-disable{
+      display: none;
+    }
+    .remove-image-btn-active{
+      display: block;
+    }
+  
+
+
+    /*------------input type file---------------------*/
+
+    
+    #image_file {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #555;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 50%;
+    }
+
+    #image_file::file-selector-button {
+      padding: 10px 16px;
+      border: none;
+      background-color: rgb(1, 1, 112);
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    #image_file::file-selector-button:hover {
+      background-color: rgb(1, 1, 112);
+    }
+
+    #image_file:hover {
+      border-color: rgb(1, 1, 112);
+    }
+    #product_variant_number{
+      width: 40%;
+    }
+     .form{
+       background-color: rgb(232, 222, 222);
+     }

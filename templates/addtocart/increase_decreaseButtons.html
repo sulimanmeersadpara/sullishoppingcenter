@@ -1,0 +1,40 @@
+
+    <button class="minusbutton" name="{{product.c_id}}" style="border: 0px dotted white ; margin: 0; padding:0;" id="buttonminus-{{product.c_id}}">&minus;</button>
+&nbsp;&nbsp;
+    <span style="font-size: 2vw; position: relative; bottom: 1vw; font-weight: bold; color: #666;">{{product.quantity}}</span>
+    <input type="hidden" value="{{product.c_id}}" id="input-{{product.c_id}}" >
+  &nbsp;&nbsp;
+    <button class="plusbutton" name="{{product.c_id}}" style="border: 0px dotted white ; margin: 0; padding: 0;" id="buttonplus-{{product.c_id}}">&plus;</button>    
+
+  {% if product.quantity < product.c_product_variant.quantity %}
+<script>
+        
+
+    document.getElementById('buttonplus-{{product.c_id}}').addEventListener('click',(event)=>
+{
+    
+console.log(document.getElementById('buttonplus-{{product.c_id}}').name +'plus');
+
+window.location.href=window.location.pathname+`?increaseQuantity=${document.getElementById('buttonplus-{{product.c_id}}').name}`;
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`;
+
+});
+</script>
+    {% endif %}
+{% if product.quantity > 1 %}
+<script>
+document.getElementById('buttonminus-{{product.c_id}}').addEventListener('click',(event)=>
+{
+
+console.log(document.getElementById('buttonplus-{{product.c_id}}').name +'minus');
+window.location.href=window.location.pathname+`?decreaseQuantity=${document.getElementById('buttonplus-{{product.c_id}}').name}`;
+
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`+`&slectedPcategoryId=${value}`;
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`;
+
+});
+</script>
+
+    {% endif %}
+
+

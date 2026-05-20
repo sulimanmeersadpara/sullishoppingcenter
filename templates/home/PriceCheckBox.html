@@ -1,0 +1,21 @@
+ <input type="checkbox"   class="home_gender-checkbox"value="{{price}}" {% if priceRange %} {% if priceRange == price%} checked {% endif %} {% endif %} id="PriceCheckBox{{price}}" >
+        <label for="home_gender-checkbox" id="home_gender-label">Rs.{{price}}</label>
+                               
+<br>
+<script>
+    PCheckBox=document.getElementById('PriceCheckBox{{price}}');
+    PCheckBox.addEventListener('change',(event)=>
+{
+//const selectedCategory=event.target.value;
+
+//const childCategory=document.getElementById('p_ctgry');
+//value=childCategory.value;
+if(document.getElementById('PriceCheckBox{{price}}').checked){
+console.log('ok you checked',document.getElementById('PriceCheckBox{{price}}').value);
+window.location.href=window.location.pathname+`?PriceRange=`+document.getElementById('PriceCheckBox{{price}}').value;
+
+}
+//window.location.href=window.location.pathname+`?slectedCcategoryId=${selectedCategory}`;
+
+});
+</script>

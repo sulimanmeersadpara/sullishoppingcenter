@@ -1,0 +1,99 @@
+{% extends 'base/shortbase.html' %}
+{% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Reviews</title>
+
+  <style>
+  
+    .review-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    .review-card:hover {
+      transform: translateY(-5px);
+    }
+  
+    .reviewer {
+      font-weight: bold;
+      color: #343a40;
+    }
+    .review-date {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+    .review-text {
+      margin-top: 10px;
+      color: #495057;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container my-5 bg-white" style="border-radius: 10px;">
+  <h2 class="text-center mb-4"><br>Customer Reviews</h2>
+
+  <!-- Review 1 -->
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+    
+
+
+
+
+
+  <!-- Review 1 -->
+  <div class="row">
+    <div class="col-12">
+         {% for pr in product_reviews %}
+        <div class="row" style="padding-bottom: 70px;">
+        
+   <div class="col-8">
+                <span class="reviewer">{{pr.user.first_name}}</span> 
+                
+                <p>
+                     {{pr.comment}}
+                </p>
+   </div>
+ 
+        <div class="col-1">
+           <img src="/media/images/{{pr.c_product_variant.product_variant.first.image}}" style="width: 100%;" class="product-img" alt="Product">
+        </div>
+        <div class="col-1"></div>
+         <div class="col-2">
+         {% if pr.star_rate == 1 %}
+            ⭐
+            {% elif pr.star_rate == 2 %}
+            ⭐⭐
+            {% elif pr.star_rate == 3 %}
+            ⭐⭐⭐
+            {% elif pr.star_rate == 4 %}
+            ⭐⭐⭐⭐
+            {% elif pr.star_rate == 5 %}
+            ⭐⭐⭐⭐⭐
+            {% endif %}
+
+         </div>
+            
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+ </div>
+ 
+
+<!-- Bootstrap JS -->
+</body>
+</html>
+{% endblock %}

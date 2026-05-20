@@ -1,0 +1,64 @@
+   {% extends 'base/shortbase.html' %}
+    {% block start %}
+    <div class="container">
+        <div class="row">
+<div class="col-2" style=" background-color: rgb(255, 129, 150);"></div>
+<form action="" method="post" class="bg-white">
+  <br>
+  {% csrf_token %}
+<div class="row">
+  <div class="col-2"></div>
+<div class="col-4" style="border: 2px solid black;">
+<h1>employees</h1>
+<select name="employee" class="form-control">
+{% for emp in employees%}
+<option value="{{emp.id}}">
+{{emp.first_name}} - {{emp.job_title}}
+</option>
+{% endfor %}
+</select>
+</div>
+<div class="col-4 bg-white" style="border: 2px solid black;">
+<h1>permisions</h1>
+<select name="permission" class="form-control">
+{% for perm in permissions %}
+<option value="{{perm.id}}">
+           {{perm.codename}}
+</option> 
+{% endfor %}
+</select><br>
+</div>
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-4"><br><button type="submit" class="btn btn-primary">save permission</button><br></div>
+  <div class="col-4"></div>
+</div>
+</div>
+</form>
+</div>
+<br><br>
+<div class="col-12">
+  <br>
+<div class="row  bg-secondary">
+  {% for emp in employees %}
+ <div class="col-2 text-white" style="border: 2px solid rgb(240, 234, 234);">{{emp.first_name}} - {{emp.job_title}} </div>
+  <div class="col-10 text-white" style="border: 2px solid rgb(232, 227, 227);">
+    <table style="color: rgb(252, 236, 236)">
+     {% for perm in emp.user_permissions.all %}
+    <tr><td>{{ perm.content_type.app_label }} | {{ perm.codename }} | {{ perm.name }}</td>
+      <td><a href="{% url 'delete_permission' perm.id emp.id %}" style="text-decoration: none;"><button class="btn btn-warning border border-secondary" style="width: 150px ; height: 40px; font-size: x-small; display: inline;">delete permission </button></a></td></tr>
+  {% empty %}
+  <ul>
+    <li>No direct permissions</li>
+   </ul>
+  {% endfor %}
+</table>
+  </div>
+{% endfor %}
+</div>
+</div>
+        </div>
+    </div>
+    </form>
+
+{% endblock %}
